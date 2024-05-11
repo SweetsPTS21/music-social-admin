@@ -1,0 +1,6 @@
+export const signupTypes = {
+    REQUEST: 'SIGNUP_REQUEST',
+    SUCCESS: 'SIGNUP_SUCCESS',
+    FAILURE: 'SIGNUP_FAILURE',
+    RESET: 'SIGNUP_RESET'
+}
