@@ -1,8 +1,9 @@
-import { Button, Flex, Image, Space, Tag } from 'antd'
+import { Button, Flex, Image, Space, Tag, Tooltip } from 'antd'
 import { getMovieTagColor } from '../../movie/utils'
-import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
+import { DeleteTwoTone, EditTwoTone, LinkOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useAlbumContext } from '../../../../context/useAlbumContext'
+import { Link } from 'react-router-dom'
 
 export const Columns = (
     tableParams,
@@ -52,8 +53,13 @@ export const Columns = (
             key: 'artist',
             width: '10%',
             render: (text, record) => (
-                <Flex direction="column">
+                <Flex gap={8}>
                     <span>{text?.name}</span>
+                    <Link to={'/management/artists/' + text?.id}>
+                        <Tooltip title={'View Artist'} placement={'top'}>
+                            <LinkOutlined color={'#0000EE'} />
+                        </Tooltip>
+                    </Link>
                 </Flex>
             )
         },

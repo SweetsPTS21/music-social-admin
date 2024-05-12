@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Upload, Image, Form, Flex, Typography } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { getBase64 } from '../utils'
+import { getBase64 } from '../movie/utils'
 import ImgCrop from 'antd-img-crop'
 
 const { Text } = Typography

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { UploadOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, message, Upload } from 'antd'
-import { getBase64 } from '../utils'
 
 const beforeUpload = (file) => {
     const isMp3 = file.type === 'audio/mpeg'
@@ -40,15 +39,6 @@ const UploadSong = ({ audio, form }) => {
     }
 
     const handleUpload = async (file) => {
-        // try {
-        //     const response = await uploadThumbnail(file)
-        //     const imageUrl = response?.path
-        //     setImageUrl(imageUrl)
-        //     message.success('Image uploaded successfully')
-        // } catch (error) {
-        //     console.error('Error uploading image:', error)
-        //     message.error('Failed to upload image')
-        // }
         if (file && form) {
             form.setFieldsValue({
                 fileAudio: file.file

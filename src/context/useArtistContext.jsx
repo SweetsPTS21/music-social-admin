@@ -1,55 +1,40 @@
 import React, {
     createContext,
-    useCallback,
     useContext,
     useEffect,
     useMemo,
     useState
 } from 'react'
-import { getArtists } from '../api/artist/api'
+import { useManagementContext } from './useManagementContext'
 
 export const ArtistContext = createContext(null)
 export const useArtistContext = () => useContext(ArtistContext)
 
 const ArtistContextProvider = ({ children }) => {
-    const [allArtist, setAllArtist] = useState([])
-    const [artistLoading, setArtistLoading] = useState(false)
-
+    const { allArtist } = useManagementContext()
     const [openEditModal, setOpenEditModal] = useState(false)
     const [editModalState, setEditModalState] = useState({})
     const [modalMode, setModalMode] = useState(null)
 
+    const artistId = window.location.pathname.split('/').pop()
+
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deleteModalState, setDeleteModalState] = useState({})
 
-    const [searchText, setSearchText] = useState('')
-    const [page, setPage] = useState(0)
-    const [size, setSize] = useState(50)
-    const [sort, setSort] = useState('createdDate,desc')
-
-    const fetchArtistData = useCallback(
-        async (page, size, sort, searchText) => {
-            setArtistLoading(true)
-            try {
-                const res = await getArtists({
-                    page,
-                    size,
-                    sort,
-                    searchText
-                })
-                setAllArtist(res)
-            } catch (error) {
-                console.error('Error fetching artist:', error)
-            } finally {
-                setArtistLoading(false)
-            }
-        },
-        []
-    )
-
     useEffect(() => {
-        fetchArtistData(page, size, sort, searchText).then((r) => r)
-    }, [])
+        if (artistId && allArtist.length > 0) {
+            const findArtist = allArtist?.find(
+                (artist) => artist.id === Number(artistId)
+            )
+            if (findArtist) {
+                changeEditModalState({
+                    ...findArtist,
+                    image: findArtist?.image?.path
+                })
+                changeModalMode('update')
+            }
+        }
+    }, [artistId, allArtist])
 
     const changeEditModalState = (data) => {
         setEditModalState(data)
@@ -67,9 +52,6 @@ const ArtistContextProvider = ({ children }) => {
 
     const contextValue = useMemo(() => {
         return {
-            allArtist,
-            artistLoading,
-            fetchArtistData,
             openEditModal,
             editModalState,
             changeEditModalState,
@@ -80,8 +62,6 @@ const ArtistContextProvider = ({ children }) => {
             changeDeleteModalState
         }
     }, [
-        allArtist,
-        artistLoading,
         openEditModal,
         editModalState,
         modalMode,
