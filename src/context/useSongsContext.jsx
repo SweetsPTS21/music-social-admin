@@ -17,9 +17,13 @@ const BASE_URL_SONGS = `${BASE_PATH}/api/v1/songs`
 const SongsContextProvider = ({ children }) => {
     const [allSongs, setAllSongs] = useState([])
     const [songLoading, setSongLoading] = useState(false)
+
     const [openEditModal, setOpenEditModal] = useState(false)
     const [editModalState, setEditModalState] = useState({})
     const [modalMode, setModalMode] = useState(null)
+
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const [deleteModalState, setDeleteModalState] = useState({})
 
     const [songGenres, setSongGenres] = useState([])
     const [songTags, setSongTags] = useState([])
@@ -83,6 +87,11 @@ const SongsContextProvider = ({ children }) => {
         setOpenEditModal(!openEditModal)
     }
 
+    const changeDeleteModalState = (data) => {
+        setDeleteModalState(data)
+        setOpenDeleteModal(!openDeleteModal)
+    }
+
     const changeModalMode = (mode) => {
         setModalMode(mode)
     }
@@ -98,7 +107,10 @@ const SongsContextProvider = ({ children }) => {
             changeModalMode,
             fetchSongsData,
             songGenres,
-            songTags
+            songTags,
+            openDeleteModal,
+            deleteModalState,
+            changeDeleteModalState
         }
     }, [
         allSongs,
@@ -107,7 +119,9 @@ const SongsContextProvider = ({ children }) => {
         editModalState,
         modalMode,
         songGenres,
-        songTags
+        songTags,
+        openDeleteModal,
+        deleteModalState
     ])
 
     return (

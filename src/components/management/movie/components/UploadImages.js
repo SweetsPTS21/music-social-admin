@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { Upload, Image, Form } from 'antd'
+import { Upload, Image, Form, Flex, Typography } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { getBase64 } from '../utils'
 import ImgCrop from 'antd-img-crop'
-import { BASE_UPLOAD } from '../../../../config/url'
-import { uploadThumbnail } from '../../../../api/music/api'
 
-const UploadImages = ({ images }) => {
+const { Text } = Typography
+
+const UploadImages = ({ images, form }) => {
     const [previewOpen, setPreviewOpen] = useState(false)
     const [previewImage, setPreviewImage] = useState('')
     const [fileList, setFileList] = useState([])
 
     useEffect(() => {
-        if (images?.length > 0) {
-            const list = images.map((image, index) => ({
-                uid: index,
-                name: 'Image' + index,
-                status: 'done',
-                url: image
-            }))
-            setFileList(list)
+        if (images) {
+            setFileList([
+                {
+                    uid: '-1',
+                    name: 'Image',
+                    status: 'done',
+                    url: images
+                }
+            ])
         }
     }, [images])
 
@@ -31,7 +32,16 @@ const UploadImages = ({ images }) => {
         setPreviewOpen(true)
     }
 
-    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList)
+    const handleChange = ({ fileList: newFileList }) => {
+        setFileList(
+            newFileList?.map((file) => {
+                return {
+                    ...file,
+                    status: 'done'
+                }
+            })
+        )
+    }
 
     const uploadButton = (
         <button
@@ -52,20 +62,32 @@ const UploadImages = ({ images }) => {
         </button>
     )
 
+    const handleUpload = async (file) => {
+        if (file && form) {
+            form.setFieldsValue({
+                fileThumbnail: file.file
+            })
+        }
+    }
+
     return (
-        <>
-            <Form.Item label="Images" name="images">
-                <ImgCrop rotationSlider>
-                    <Upload
-                        action={uploadThumbnail}
-                        listType="picture-card"
-                        fileList={fileList}
-                        onPreview={handlePreview}
-                        onChange={handleChange}
-                    >
-                        {fileList.length >= 8 ? null : uploadButton}
-                    </Upload>
-                </ImgCrop>
+        <div className={'h-[300px]'}>
+            <Form.Item name="fileThumbnail">
+                <Flex align="center" justify={'center'} vertical>
+                    <ImgCrop rotationSlider>
+                        <Upload
+                            customRequest={(file) => handleUpload(file)}
+                            listType="picture-card"
+                            fileList={fileList}
+                            onPreview={handlePreview}
+                            onChange={handleChange}
+                            className={'ms-upload-song-image'}
+                        >
+                            {fileList.length >= 1 ? null : uploadButton}
+                        </Upload>
+                    </ImgCrop>
+                    <Text type="secondary">Upload a thumbnail</Text>
+                </Flex>
             </Form.Item>
             {previewImage && (
                 <Image
@@ -81,7 +103,7 @@ const UploadImages = ({ images }) => {
                     src={previewImage}
                 />
             )}
-        </>
+        </div>
     )
 }
 

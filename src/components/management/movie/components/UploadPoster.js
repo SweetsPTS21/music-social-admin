@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Flex, Form, message, Upload } from 'antd'
+import { Flex, Form, Image, message, Upload } from 'antd'
 import { getBase64 } from '../utils'
 import { BASE_UPLOAD } from '../../../../config/url'
 import { uploadThumbnail } from '../../../../api/music/api'
@@ -17,9 +17,11 @@ const beforeUpload = (file) => {
     return isJpgOrPng && isLt2M
 }
 
-const UploadPoster = ({ poster }) => {
+const UploadPoster = ({ poster, form }) => {
     const [loading, setLoading] = useState(false)
     const [imageUrl, setImageUrl] = useState(null)
+    const [previewOpen, setPreviewOpen] = useState(false)
+    const [previewImage, setPreviewImage] = useState('')
 
     console.log('poster', poster)
 
@@ -56,43 +58,51 @@ const UploadPoster = ({ poster }) => {
         </button>
     )
 
+    const handlePreview = async (file) => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj)
+        }
+        setPreviewImage(file.url || file.preview)
+        setPreviewOpen(true)
+    }
+
     const handleUpload = async (file) => {
-        try {
-            const response = await uploadThumbnail(file)
-            const imageUrl = response?.path
-            setImageUrl(imageUrl)
-            message.success('Image uploaded successfully')
-        } catch (error) {
-            console.error('Error uploading image:', error)
-            message.error('Failed to upload image')
+        if (file && form) {
+            form.setFieldsValue({
+                fileThumbnail: file.file
+            })
         }
     }
 
     return (
-        <Form.Item name="posters">
-            <div className={'poster-upload'}>
-                <Upload
-                    name="avatar"
-                    listType="picture-card"
-                    showUploadList={false}
-                    customRequest={(file) => handleUpload(file)}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChange}
-                >
-                    {poster ? (
-                        <img
-                            src={poster}
-                            alt="avatar"
-                            style={{
-                                width: '100%'
-                            }}
-                        />
-                    ) : (
-                        uploadButton
-                    )}
-                </Upload>
-            </div>
-        </Form.Item>
+        <>
+            <Form.Item name="fileThumbnail">
+                <div className={'poster-upload'}>
+                    <Upload
+                        listType="picture-card"
+                        showUploadList={false}
+                        customRequest={(file) => handleUpload(file)}
+                        beforeUpload={beforeUpload}
+                        onPreview={handlePreview}
+                        onChange={handleChange}
+                    />
+                </div>
+            </Form.Item>
+            {previewImage && (
+                <Image
+                    wrapperStyle={{
+                        display: 'none'
+                    }}
+                    preview={{
+                        visible: previewOpen,
+                        onVisibleChange: (visible) => setPreviewOpen(visible),
+                        afterOpenChange: (visible) =>
+                            !visible && setPreviewImage('')
+                    }}
+                    src={previewImage}
+                />
+            )}
+        </>
     )
 }
 

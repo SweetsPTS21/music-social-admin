@@ -1,4 +1,4 @@
-import { MS_axios } from '../../custom/axios'
+import { MS_axios, MS_axios_upload } from '../../custom/axios'
 import { BASE_PATH } from '../../config/url'
 
 const BASE_URL_SONGS = `${BASE_PATH}/api/v1/songs`
@@ -28,8 +28,8 @@ export const getSong = async (id) => {
         })
 }
 
-export const createSong = async (user) => {
-    return MS_axios.post(BASE_URL_SONGS, user)
+export const createSong = async (data) => {
+    return MS_axios_upload.post(BASE_URL_SONGS, data)
         .then((res) => {
             return res.data || {}
         })
@@ -39,8 +39,8 @@ export const createSong = async (user) => {
         })
 }
 
-export const updateSong = async (user) => {
-    return MS_axios.put(`${BASE_URL_SONGS}/${user.id}`, user)
+export const updateSong = async (id, data) => {
+    return MS_axios_upload.put(`${BASE_URL_SONGS}/${id}`, data)
         .then((res) => {
             return res.data || {}
         })
@@ -86,7 +86,7 @@ export const getSongTags = async (params) => {
 export const uploadThumbnail = async (file) => {
     const formData = new FormData()
     formData.append('file', file)
-    return MS_axios.post(`http://13.211.144.166:8080/files/upload`, formData)
+    return MS_axios.post(`${BASE_URL_SONGS_UPLOAD}`, formData)
         .then((res) => {
             return res.data || {}
         })

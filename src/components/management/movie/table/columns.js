@@ -8,10 +8,7 @@ import {
 import React, { useRef, useState } from 'react'
 import Highlighter from 'react-highlight-words'
 import { getMovieTagColor } from '../utils'
-import useSongContext, {
-    useSongsContext,
-    useUserContext
-} from '../../../../context/useSongsContext'
+import { useSongsContext } from '../../../../context/useSongsContext'
 import dayjs from 'dayjs'
 
 export const Columns = (
@@ -20,7 +17,7 @@ export const Columns = (
     setData,
     changeEditModalState
 ) => {
-    const { changeModalMode } = useSongsContext()
+    const { changeModalMode, changeDeleteModalState } = useSongsContext()
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const searchInput = useRef(null)
@@ -155,7 +152,7 @@ export const Columns = (
             key: 'thumbnail',
             width: '10%',
             render: (thumbnail, record) => (
-                <Image src={thumbnail?.path} alt={thumbnail?.name} width={80} />
+                <Image src={thumbnail} alt={'thumbnail'} width={80} />
             )
         },
         {
@@ -221,7 +218,7 @@ export const Columns = (
                     />
                     <Button
                         icon={<DeleteTwoTone twoToneColor={'#ff0000'} />}
-                        onClick={() => changeEditModalState(record)}
+                        onClick={() => changeDeleteModalState(record)}
                     />
                 </Space>
             )

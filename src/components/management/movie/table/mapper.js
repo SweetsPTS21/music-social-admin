@@ -6,7 +6,7 @@ export const mapper = (data) => {
     return data.map((item) => {
         console.log('item', item)
         const audio = item?.audio || {}
-        const thumbnail = item?.thumbnail || {}
+        const thumbnail = item?.thumbnail?.path || ''
         const createDate = dayjs(item?.createDate).format('DD/MM/YYYY hh:mm:ss')
 
         return {

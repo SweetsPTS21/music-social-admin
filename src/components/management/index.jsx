@@ -1,14 +1,24 @@
 import React, { useState } from 'react'
 import {
+    BarsOutlined,
     DesktopOutlined,
     FileOutlined,
+    FireOutlined,
+    PictureOutlined,
     PieChartOutlined,
+    PlaySquareOutlined,
+    StarOutlined,
     TeamOutlined,
     UserOutlined
 } from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
 import MovieManagement from './movie'
 import Home from './home'
+import PlaylistManagement from './playlist'
+import AlbumManagement from './album'
+import ArtistManagement from './artist'
+import GenreManagement from './genre'
+import TagManagement from './tag'
 const { Header, Content, Footer, Sider } = Layout
 
 function getItem(label, key, icon, children) {
@@ -22,19 +32,22 @@ function getItem(label, key, icon, children) {
 
 const items = [
     getItem('Home', '1', <PieChartOutlined />),
-    getItem('Movie', 'sub1', <DesktopOutlined />, [
+    getItem('Songs', 'sub1', <FireOutlined />, [
         getItem('Management', '2'),
         getItem('Statistic', '3')
     ]),
-    getItem('User', 'sub2', <UserOutlined />, [
+    getItem('Playlists', 'sub2', <PlaySquareOutlined />, [
         getItem('Management', '4'),
         getItem('Statistic', '5')
     ]),
-    getItem('Team', 'sub3', <TeamOutlined />, [
-        getItem('Team 1', '6'),
+    getItem('Albums', 'sub3', <PictureOutlined />, [
+        getItem('Management', '6'),
         getItem('Team 2', '7')
     ]),
-    getItem('Files', '8', <FileOutlined />)
+    getItem('Artist', '8', <TeamOutlined />),
+    getItem('Genres', '10', <BarsOutlined />),
+    getItem('Tags', '11', <StarOutlined />),
+    getItem('Files', '12', <FileOutlined />)
 ]
 
 const renderContent = (key) => {
@@ -46,15 +59,19 @@ const renderContent = (key) => {
         case '3':
             return <div>Tom</div>
         case '4':
-            return <div>Bill</div>
+            return <PlaylistManagement />
         case '5':
             return <div>Alex</div>
         case '6':
-            return <div>Team 1</div>
+            return <AlbumManagement />
         case '7':
             return <div>Team 2</div>
-        case '9':
-            return <div>Files</div>
+        case '8':
+            return <ArtistManagement />
+        case '10':
+            return <GenreManagement />
+        case '11':
+            return <TagManagement />
         default:
             return <div>Option 1</div>
     }
@@ -128,7 +145,7 @@ const AdminHome = () => {
                         textAlign: 'center'
                     }}
                 >
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                    Music Social ©{new Date().getFullYear()} Created by SWPTS
                 </Footer>
             </Layout>
         </Layout>
