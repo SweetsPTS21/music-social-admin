@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
-import { ConfigProvider, Layout } from 'antd'
+import { Layout } from 'antd'
 import Header from '../layout/header'
-import rootBG from '../../assets/img/rootBG.jpg'
 import HomeFooter from '../layout/footer'
 import LoginContent from './content'
 import { useAuthedContext } from '../../context/useAuthedContext'
