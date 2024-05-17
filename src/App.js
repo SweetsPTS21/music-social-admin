@@ -8,7 +8,7 @@ import LoginPage from './components/login'
 import SignupPage from './components/signup'
 import AuthedContextProvider from './context/useAuthedContext'
 import Page403 from './common/error/Page403'
-import ManagementRouter from './router/management/router'
+import { ManagementRoute } from './components/management/route/route'
 
 function App() {
     return (
@@ -26,8 +26,9 @@ function App() {
                         <Route path="login" element={<LoginPage />} />
                         <Route path="signup" element={<SignupPage />} />
                         <Route
+                            index
                             path="management/*"
-                            element={<ManagementRouter />}
+                            element={<ManagementRoute />}
                         />
                         <Route
                             path="403"

@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Flex, Form, Image, message, Upload } from 'antd'
-import { getBase64 } from '../utils'
-import { BASE_UPLOAD } from '../../../../config/url'
-import { uploadThumbnail } from '../../../../api/music/api'
+import { Form, Image, message, Upload } from 'antd'
+import { getBase64 } from '../movie/utils'
 
 const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'

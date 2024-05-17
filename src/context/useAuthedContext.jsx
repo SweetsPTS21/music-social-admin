@@ -17,8 +17,10 @@ const AuthedContextProvider = ({ children }) => {
     useEffect(() => {
         if (loginSuccess && user) {
             setAuthedUser(user)
+        } else {
+            setAuthedUser(null)
         }
-    }, [loginSuccess])
+    }, [loginSuccess, user])
 
     const contextValue = useMemo(() => {
         return {

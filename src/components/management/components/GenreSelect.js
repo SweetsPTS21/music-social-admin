@@ -1,11 +1,11 @@
 import { Form, Select } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { useSongsContext } from '../../../../context/useSongsContext'
+import React from 'react'
+import { useManagementContext } from '../../../context/useManagementContext'
 
 const { Option } = Select
 
 export const GenreSelect = ({ value }) => {
-    const { songGenres } = useSongsContext()
+    const { songGenres } = useManagementContext()
 
     return (
         <Form.Item

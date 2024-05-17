@@ -12,14 +12,18 @@ import {
     UserOutlined
 } from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
-import MovieManagement from './movie'
 import Home from './home'
 import PlaylistManagement from './playlist'
 import AlbumManagement from './album'
 import ArtistManagement from './artist'
 import GenreManagement from './genre'
 import TagManagement from './tag'
+import SongsManagement from './movie'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
+import SideHeader from './components/SideHeader'
+import LayoutHeader from './components/LayoutHeader'
 const { Header, Content, Footer, Sider } = Layout
+const { Item } = Breadcrumb
 
 function getItem(label, key, icon, children) {
     return {
@@ -32,52 +36,68 @@ function getItem(label, key, icon, children) {
 
 const items = [
     getItem('Home', '1', <PieChartOutlined />),
-    getItem('Songs', 'sub1', <FireOutlined />, [
-        getItem('Management', '2'),
-        getItem('Statistic', '3')
-    ]),
-    getItem('Playlists', 'sub2', <PlaySquareOutlined />, [
-        getItem('Management', '4'),
-        getItem('Statistic', '5')
-    ]),
-    getItem('Albums', 'sub3', <PictureOutlined />, [
-        getItem('Management', '6'),
-        getItem('Team 2', '7')
-    ]),
-    getItem('Artist', '8', <TeamOutlined />),
-    getItem('Genres', '10', <BarsOutlined />),
-    getItem('Tags', '11', <StarOutlined />),
-    getItem('Files', '12', <FileOutlined />)
+    getItem('Songs', '2', <FireOutlined />),
+    getItem('Playlists', '3', <PlaySquareOutlined />),
+    getItem('Albums', '4', <PictureOutlined />),
+    getItem('Artist', '5', <TeamOutlined />),
+    getItem('Genres', '6', <BarsOutlined />),
+    getItem('Tags', '7', <StarOutlined />),
+    getItem('Files', '8', <FileOutlined />)
 ]
 
-const renderContent = (key) => {
-    switch (key) {
-        case '1':
-            return <Home />
-        case '2':
-            return <MovieManagement />
-        case '3':
-            return <div>Tom</div>
-        case '4':
-            return <PlaylistManagement />
-        case '5':
-            return <div>Alex</div>
-        case '6':
-            return <AlbumManagement />
-        case '7':
-            return <div>Team 2</div>
-        case '8':
-            return <ArtistManagement />
-        case '10':
-            return <GenreManagement />
-        case '11':
-            return <TagManagement />
-        default:
-            return <div>Option 1</div>
+const siderItems = [
+    {
+        key: '1',
+        icon: <DesktopOutlined />,
+        label: 'Home',
+        url: '/management'
+    },
+    {
+        key: '2',
+        icon: <FireOutlined />,
+        label: 'Songs',
+        url: '/management/songs'
+    },
+    {
+        key: '3',
+        icon: <PlaySquareOutlined />,
+        label: 'Playlists',
+        url: '/management/playlists'
+    },
+    {
+        key: '4',
+        icon: <PictureOutlined />,
+        label: 'Albums',
+        url: '/management/albums'
+    },
+    {
+        key: '5',
+        icon: <TeamOutlined />,
+        label: 'Artist',
+        url: '/management/artists'
+    },
+    {
+        key: '6',
+        icon: <BarsOutlined />,
+        label: 'Genres',
+        url: '/management/genres'
+    },
+    {
+        key: '7',
+        icon: <StarOutlined />,
+        label: 'Tags',
+        url: '/management/tags'
+    },
+    {
+        key: '8',
+        icon: <FileOutlined />,
+        label: 'Files',
+        url: '/management/files'
     }
-}
+]
 
 const AdminHome = () => {
+    const navigate = useNavigate()
     const [collapsed, setCollapsed] = useState(false)
     const [selectedKeys, setSelectedKeys] = useState(['1'])
     const {
@@ -85,9 +105,11 @@ const AdminHome = () => {
     } = theme.useToken()
 
     function onSelect({ item, key, keyPath, selectedKeys, domEvent }) {
-        console.log({ item, key, keyPath, selectedKeys, domEvent })
+        navigate(siderItems.find((item) => item.key === key)?.url)
         setSelectedKeys([key])
     }
+
+    const currentTab = window.location.pathname.toString()
 
     return (
         <Layout
@@ -96,11 +118,13 @@ const AdminHome = () => {
             }}
         >
             <Sider
+                theme="light"
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
+                width={250}
             >
-                <div className="demo-logo-vertical" />
+                <SideHeader collapsed={collapsed} />
                 <Menu
                     theme="light"
                     defaultSelectedKeys={['1']}
@@ -110,12 +134,7 @@ const AdminHome = () => {
                 />
             </Sider>
             <Layout>
-                <Header
-                    style={{
-                        padding: 0,
-                        background: colorBgContainer
-                    }}
-                />
+                <LayoutHeader />
                 <Content
                     style={{
                         margin: '0 16px'
@@ -126,18 +145,36 @@ const AdminHome = () => {
                             margin: '16px 0'
                         }}
                     >
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                        {siderItems?.map((item) => (
+                            <Item>
+                                <Link to={item?.url}>
+                                    {item?.url === currentTab ? (
+                                        <div
+                                            style={{
+                                                color: '#169bff',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            {item?.label}
+                                        </div>
+                                    ) : (
+                                        item?.label
+                                    )}
+                                </Link>
+                            </Item>
+                        ))}
                     </Breadcrumb>
                     <div
                         style={{
                             padding: 24,
                             minHeight: 360,
+                            height: 'calc(100vh - 182px)',
                             background: colorBgContainer,
-                            borderRadius: borderRadiusLG
+                            borderRadius: borderRadiusLG,
+                            overflow: 'auto'
                         }}
                     >
-                        {renderContent(selectedKeys[0])}
+                        <Outlet />
                     </div>
                 </Content>
                 <Footer

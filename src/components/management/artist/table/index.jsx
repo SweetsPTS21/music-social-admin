@@ -4,10 +4,11 @@ import { Table } from 'antd'
 import { useArtistContext } from '../../../../context/useArtistContext'
 import { mapper } from './mapper'
 import { Columns } from './column'
+import { useManagementContext } from '../../../../context/useManagementContext'
 
 const ArtistTable = () => {
-    const { allArtist, artistLoading, changeEditModalState, fetchArtistData } =
-        useArtistContext()
+    const { allArtist, artistLoading } = useManagementContext()
+    const { changeEditModalState, fetchArtistData } = useArtistContext()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [tableParams, setTableParams] = useState({

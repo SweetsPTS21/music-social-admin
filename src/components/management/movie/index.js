@@ -5,7 +5,7 @@ import UpdateSongModal from './modal'
 import SongsTable from './table'
 import DeleteSongModal from './modal/delelte'
 
-const MovieManagement = () => {
+const SongsManagement = () => {
     return (
         <UserContextProvider>
             <Toolbar />
@@ -16,4 +16,4 @@ const MovieManagement = () => {
     )
 }
 
-export default MovieManagement
+export default SongsManagement

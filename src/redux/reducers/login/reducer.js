@@ -69,6 +69,7 @@ const loginReducer = (state = initialState, action) => {
         case loginTypes.CLEAR_LOGIN_DATA:
             return {
                 ...state,
+                user: null,
                 email: null,
                 password: null,
                 rememberMe: false,

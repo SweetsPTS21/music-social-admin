@@ -10,14 +10,14 @@ import {
     Select,
     Typography
 } from 'antd'
-import { GenreSelect } from '../components/GenreSelect'
+import { GenreSelect } from '../../components/GenreSelect'
 import { message } from 'antd'
 import _ from 'lodash'
-import UploadImages from '../components/UploadImages'
+import UploadImages from '../../components/UploadImages'
 import { useSongsContext } from '../../../../context/useSongsContext'
 import { createSong, updateSong } from '../../../../api/music/api'
-import { TagSelect } from '../components/TagSelect'
-import UploadSong from '../components/UploadSong'
+import { TagSelect } from '../../components/TagSelect'
+import UploadSong from '../../components/UploadSong'
 
 const { TextArea } = Input
 const { Text } = Typography
@@ -37,7 +37,6 @@ const UpdateSongModal = () => {
     console.log('currentSong', currentSong)
 
     const delayFn = _.debounce((values) => {
-        console.log('values', values)
         setUpdateLoading(true)
         const newData = new FormData()
         newData.append('name', values?.name)
@@ -56,13 +55,6 @@ const UpdateSongModal = () => {
         }
 
         newData.append('publish', true)
-
-        const allValues = {}
-        for (let [key, value] of newData.entries()) {
-            allValues[key] = value
-        }
-
-        console.log(allValues)
 
         if (modalMode === 'add') {
             createSong(newData)
