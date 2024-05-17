@@ -1,5 +1,4 @@
-import { Button, Flex, Image, Space, Tag } from 'antd'
-import { getMovieTagColor } from '../../movie/utils'
+import { Button, Space } from 'antd'
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { useTagContext } from '../../../../context/useTagContext'

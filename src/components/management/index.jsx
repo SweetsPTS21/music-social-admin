@@ -8,21 +8,13 @@ import {
     PieChartOutlined,
     PlaySquareOutlined,
     StarOutlined,
-    TeamOutlined,
-    UserOutlined
+    TeamOutlined
 } from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu, theme } from 'antd'
-import Home from './home'
-import PlaylistManagement from './playlist'
-import AlbumManagement from './album'
-import ArtistManagement from './artist'
-import GenreManagement from './genre'
-import TagManagement from './tag'
-import SongsManagement from './movie'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import SideHeader from './components/SideHeader'
 import LayoutHeader from './components/LayoutHeader'
-const { Header, Content, Footer, Sider } = Layout
+const { Content, Footer, Sider } = Layout
 const { Item } = Breadcrumb
 
 function getItem(label, key, icon, children) {

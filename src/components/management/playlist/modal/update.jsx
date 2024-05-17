@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Flex, Form, Input, message, Modal, Row } from 'antd'
 import { usePlaylistContext } from '../../../../context/usePlaylistContext'
 import UploadImages from '../../components/UploadImages'
-import UploadSong from '../../components/UploadSong'
 import _ from 'lodash'
-import { createSong, updateSong } from '../../../../api/music/api'
 import { createPlaylist, updatePlaylist } from '../../../../api/playlist/api'
 
 const UpdatePlaylistModal = () => {

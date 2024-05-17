@@ -1,15 +1,9 @@
 import { Button, Flex, Image, Input, Space, Tag } from 'antd'
-import {
-    CheckCircleTwoTone,
-    DeleteTwoTone,
-    EditTwoTone,
-    SearchOutlined
-} from '@ant-design/icons'
+import { DeleteTwoTone, EditTwoTone, SearchOutlined } from '@ant-design/icons'
 import React, { useRef, useState } from 'react'
 import Highlighter from 'react-highlight-words'
 import { getMovieTagColor } from '../utils'
 import { useSongsContext } from '../../../../context/useSongsContext'
-import dayjs from 'dayjs'
 
 export const Columns = (
     tableParams,

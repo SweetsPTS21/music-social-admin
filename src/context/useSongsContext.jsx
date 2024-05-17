@@ -7,12 +7,9 @@ import React, {
     useState
 } from 'react'
 import { getSongGenres, getSongs, getSongTags } from '../api/music/api'
-import { MS_axios } from '../custom/axios'
-import { BASE_PATH } from '../config/url'
 
 export const SongsContext = createContext(null)
 export const useSongsContext = () => useContext(SongsContext)
-const BASE_URL_SONGS = `${BASE_PATH}/api/v1/songs`
 
 const SongsContextProvider = ({ children }) => {
     const [allSongs, setAllSongs] = useState([])

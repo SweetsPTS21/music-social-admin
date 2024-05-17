@@ -1,5 +1,4 @@
 import { Button, Flex, Image, Space, Tag, Tooltip } from 'antd'
-import { getMovieTagColor } from '../../movie/utils'
 import { DeleteTwoTone, EditTwoTone, LinkOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useAlbumContext } from '../../../../context/useAlbumContext'
