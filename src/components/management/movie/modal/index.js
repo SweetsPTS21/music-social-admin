@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-    Button,
-    Col,
-    Flex,
-    Form,
-    Input,
-    Modal,
-    Row,
-    Select,
-    Typography
-} from 'antd'
+import { Button, Col, Flex, Form, Input, Modal, Row, Typography } from 'antd'
 import { GenreSelect } from '../../components/GenreSelect'
 import { message } from 'antd'
 import _ from 'lodash'

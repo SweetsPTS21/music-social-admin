@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import AdminHome from '../index'
 import ArtistManagement from '../artist'
 import SongsManagement from '../movie'
