@@ -41,7 +41,14 @@ MS_axios.interceptors.response.use(
     },
     (error) => {
         // Handle response errors (e.g., handle errors gracefully)
-        if (error?.response?.status === 401) {
+        // ignore if path is /login
+        console.log('error', error)
+
+        if (
+            (error?.response?.status === 401 ||
+                error?.response?.status === 403) &&
+            !error?.config?.url.includes('/authenticate')
+        ) {
             // Handle unauthorized errors (e.g., redirect to login)
             // clear localStorage
             localStorage.clear()
@@ -50,7 +57,7 @@ MS_axios.interceptors.response.use(
             Cookies.remove('accessToken')
 
             // redirect to login
-            window.location.href = '/login'
+            //window.location.href = '/login'
         }
 
         if (!error?.response || error?.response?.status === 403) {

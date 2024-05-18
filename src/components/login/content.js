@@ -10,7 +10,6 @@ const LoginContent = () => {
     const [rememberMe, setRememberMe] = useState(true)
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values)
         dispatch(
             loginStart({
                 email: values.email,

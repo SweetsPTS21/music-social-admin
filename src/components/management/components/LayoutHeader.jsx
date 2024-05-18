@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar, Dropdown, Flex, Typography } from 'antd'
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { logoutStart } from '../../../redux/actions/login/actions'
+import { clearLogin, logoutStart } from '../../../redux/actions/login/actions'
 
 const { Text } = Typography
 
@@ -46,7 +46,6 @@ const LayoutHeader = () => {
     const onClick = ({ key, label }) => {
         if (key === '2') {
             dispatch(logoutStart())
-            window.location.href = '/login'
         }
     }
 

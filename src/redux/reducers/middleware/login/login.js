@@ -28,12 +28,15 @@ function* onLoginStartAsync(action) {
             if (me.status === 200) {
                 yield put(loginSuccess(me.data))
                 message.success('Đăng nhập thành công!')
-                message.destroy()
             }
         }
     } catch (error) {
         yield put(loginError(error?.message))
         message.error('Sai tên người dùng hoặc mật khẩu. Vui lòng thử lại!')
+    } finally {
+        setTimeout(() => {
+            message.destroy()
+        }, [2000])
     }
 }
 
@@ -43,15 +46,15 @@ function* onLogin() {
 
 function* onLogoutStartAsync() {
     try {
-        const response = yield call(logout)
+        // const response = yield call(logout)
 
-        if (response.status === 200) {
-            clearLocalData()
+        // if (response.status === 200) {
+        clearLocalData()
 
-            yield put(clearLogin())
+        yield put(clearLogin())
 
-            window.location.href = `${BASE_HOME}/login`
-        }
+        window.location.href = `/login`
+        // }
     } catch (error) {
         message.error('Đã có lỗi xảy ra. Vui lòng thử lại!')
     }
