@@ -28,7 +28,9 @@ const LoginPage = () => {
                 <Header />
                 <LoginContent />
                 <div
-                    className={'relative flex justify-center pt-12 pb-12'}
+                    className={
+                        'relative flex justify-center pt-12 pb-12 w-full'
+                    }
                     style={{
                         backgroundColor: 'rgba(0, 0, 0, 0.9)'
                     }}

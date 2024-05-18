@@ -6,7 +6,7 @@ import { Layout } from 'antd'
 
 const HomeFooter = (props) => {
     return (
-        <Layout.Footer className={'flex justify-center'}>
+        <Layout.Footer className={'flex justify-center w-full z-10'}>
             <p style={{ color: '#6d6e6f' }}>
                 Bạn có câu hỏi? Liên hệ với chúng tôi.
             </p>
@@ -23,7 +23,7 @@ const HomeFooter = (props) => {
                             }}
                         >
                             <span style={{ color: '#6d6e6f' }}>
-                                {item?.label} {' * '}
+                                {item?.label}
                             </span>
                         </Link>
                     )

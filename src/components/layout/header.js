@@ -1,18 +1,27 @@
 import React from 'react'
-import { Layout, Select } from 'antd'
+import { Flex, Layout, Select } from 'antd'
 import PropTypes from 'prop-types'
+import appLogo from '../../assets/icon/mslogo.png'
 
 const Header = (props) => {
     return (
-        <Layout.Header className={'w-full bg-white'}>
-            <div className={'flex justify-between items-center w-full'}>
+        <Layout.Header className={'bg-white p-4 w-full'}>
+            <Flex
+                justify={'space-between'}
+                align={'center'}
+                className={'w-[80%]'}
+                style={{ margin: '0 auto' }}
+            >
+                <div className={'flex gap-4 items-center'}>
+                    <img src={appLogo} alt={'logo'} className={'h-10'} />
+                </div>
                 <div className={'flex gap-4 items-center'}>
                     <Select defaultValue={'vi'}>
                         <Select.Option value={'vi'}>Tiếng Việt</Select.Option>
                         <Select.Option value={'en'}>Tiếng Anh</Select.Option>
                     </Select>
                 </div>
-            </div>
+            </Flex>
         </Layout.Header>
     )
 }

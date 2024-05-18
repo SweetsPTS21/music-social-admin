@@ -1,6 +1,5 @@
 import AppContextProvider from './context/useAppContext'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import RootPage from './rootPage'
 import { BASE_HOME } from './config/url'
 import './App.scss'
 import SettingRouter from './components/setting/Router'

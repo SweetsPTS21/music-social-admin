@@ -32,7 +32,9 @@ function* onLoginStartAsync(action) {
         }
     } catch (error) {
         yield put(loginError(error?.message))
-        message.error('Sai tên người dùng hoặc mật khẩu. Vui lòng thử lại!')
+        if (error?.response?.status === 401) {
+            message.error('Sai tên người dùng hoặc mật khẩu. Vui lòng thử lại!')
+        }
     } finally {
         setTimeout(() => {
             message.destroy()
