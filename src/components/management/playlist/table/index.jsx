@@ -4,14 +4,11 @@ import { Table } from 'antd'
 import { usePlaylistContext } from '../../../../context/usePlaylistContext'
 import { mapper } from './mapper'
 import { Columns } from './column'
+import { useManagementContext } from '../../../../context/useManagementContext'
 
 const PlaylistTable = () => {
-    const {
-        allPlaylist,
-        playlistLoading,
-        changeEditModalState,
-        fetchPlaylistData
-    } = usePlaylistContext()
+    const { allPlaylist, playlistLoading } = useManagementContext()
+    const { changeEditModalState, fetchPlaylistData } = usePlaylistContext()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [tableParams, setTableParams] = useState({

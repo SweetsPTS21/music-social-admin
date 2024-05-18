@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { message } from 'antd'
 
 export const MS_axios = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -40,7 +41,14 @@ MS_axios.interceptors.response.use(
     },
     (error) => {
         // Handle response errors (e.g., handle errors gracefully)
-        if (error.response.status === 401) {
+        // ignore if path is /login
+        console.log('error', error)
+
+        if (
+            (error?.response?.status === 401 ||
+                error?.response?.status === 403) &&
+            !error?.config?.url.includes('/authenticate')
+        ) {
             // Handle unauthorized errors (e.g., redirect to login)
             // clear localStorage
             localStorage.clear()
@@ -49,7 +57,13 @@ MS_axios.interceptors.response.use(
             Cookies.remove('accessToken')
 
             // redirect to login
-            window.location.href = '/login'
+            //window.location.href = '/login'
+        }
+
+        if (!error?.response || error?.response?.status === 403) {
+            // Handle network errors (e.g., display error message)
+            console.log('Network Error', error)
+            message.error('Network Error').then((r) => r)
         }
         return Promise.reject(error)
     }

@@ -4,10 +4,12 @@ import { Table } from 'antd'
 import { useTagContext } from '../../../../context/useTagContext'
 import { mapper } from './mapper'
 import { Columns } from './column'
+import { useManagementContext } from '../../../../context/useManagementContext'
+import TagToolbar from '../toolbar'
 
 const TagTable = () => {
-    const { allTag, tagLoading, changeEditModalState, fetchTagData } =
-        useTagContext()
+    const { songTags, tagLoading } = useManagementContext()
+    const { fetchTagData, tagUpdating, tagCreating } = useTagContext()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [tableParams, setTableParams] = useState({
@@ -21,7 +23,7 @@ const TagTable = () => {
     const loadData = () => {
         setLoading(true)
         const delayFn = setTimeout(() => {
-            setData(mapper(allTag))
+            setData(mapper(songTags))
             setLoading(false)
         }, 500)
 
@@ -57,7 +59,7 @@ const TagTable = () => {
     }, [
         tableParams.pagination?.current,
         tableParams.pagination?.pageSize,
-        allTag
+        songTags
     ])
 
     useEffect(() => {
@@ -79,21 +81,19 @@ const TagTable = () => {
     }
 
     return (
-        <Table
-            columns={Columns(
-                tableParams,
-                setTableParams,
-                setData,
-                changeEditModalState
-            )}
-            dataSource={data}
-            pagination={tableParams?.pagination}
-            loading={tagLoading || loading}
-            onChange={handleTableChange}
-            scroll={{
-                y: 600
-            }}
-        />
+        <>
+            <TagToolbar />
+            <Table
+                columns={Columns()}
+                dataSource={data}
+                pagination={tableParams?.pagination}
+                loading={tagLoading || loading || tagUpdating || tagCreating}
+                onChange={handleTableChange}
+                scroll={{
+                    y: 600
+                }}
+            />
+        </>
     )
 }
 

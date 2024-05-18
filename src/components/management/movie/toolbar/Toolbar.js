@@ -4,8 +4,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { useSongsContext } from '../../../../context/useSongsContext'
 
 const Toolbar = () => {
-    const { openEditModal, changeEditModalState, changeModalMode } =
-        useSongsContext()
+    const { changeEditModalState, changeModalMode } = useSongsContext()
 
     return (
         <Flex
@@ -15,7 +14,7 @@ const Toolbar = () => {
                 marginBottom: 20
             }}
         >
-            <h1>Movie Management</h1>
+            <h1>Songs Management</h1>
             <Button
                 type="primary"
                 icon={<PlusOutlined />}

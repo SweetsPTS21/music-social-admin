@@ -4,10 +4,11 @@ import { mapper } from './mapper'
 import { Columns } from './columns'
 import _ from 'lodash'
 import { useSongsContext } from '../../../../context/useSongsContext'
+import { useManagementContext } from '../../../../context/useManagementContext'
 
 const SongsTable = () => {
-    const { allSongs, songLoading, changeEditModalState, fetchSongsData } =
-        useSongsContext()
+    const { allSongs, songLoading, fetchSongsData } = useManagementContext()
+    const { changeEditModalState } = useSongsContext()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [tableParams, setTableParams] = useState({

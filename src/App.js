@@ -16,7 +16,7 @@ function App() {
             <AppContextProvider>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/*" element={<RootPage />}>
+                        <Route path="/*" element={<LoginPage />}>
                             <Route
                                 path="setting/*"
                                 element={<SettingRouter />}

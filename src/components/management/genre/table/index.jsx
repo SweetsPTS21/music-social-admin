@@ -4,10 +4,11 @@ import { Table } from 'antd'
 import { useGenreContext } from '../../../../context/useGenreContext'
 import { mapper } from './mapper'
 import { Columns } from './column'
+import { useManagementContext } from '../../../../context/useManagementContext'
 
 const GenreTable = () => {
-    const { allGenre, genreLoading, changeEditModalState, fetchGenreData } =
-        useGenreContext()
+    const { songGenres, genreLoading } = useManagementContext()
+    const { fetchGenreData, genreUpdating, genreCreating } = useGenreContext()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [tableParams, setTableParams] = useState({
@@ -21,7 +22,7 @@ const GenreTable = () => {
     const loadData = () => {
         setLoading(true)
         const delayFn = setTimeout(() => {
-            setData(mapper(allGenre))
+            setData(mapper(songGenres))
             setLoading(false)
         }, 500)
 
@@ -57,7 +58,7 @@ const GenreTable = () => {
     }, [
         tableParams.pagination?.current,
         tableParams.pagination?.pageSize,
-        allGenre
+        songGenres
     ])
 
     useEffect(() => {
@@ -80,15 +81,10 @@ const GenreTable = () => {
 
     return (
         <Table
-            columns={Columns(
-                tableParams,
-                setTableParams,
-                setData,
-                changeEditModalState
-            )}
+            columns={Columns()}
             dataSource={data}
             pagination={tableParams?.pagination}
-            loading={genreLoading || loading}
+            loading={genreLoading || loading || genreUpdating || genreCreating}
             onChange={handleTableChange}
             scroll={{
                 y: 600
