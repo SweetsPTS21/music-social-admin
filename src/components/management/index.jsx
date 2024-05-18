@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import {
     BarsOutlined,
     DesktopOutlined,
-    FileOutlined,
     FireOutlined,
     PictureOutlined,
     PieChartOutlined,
@@ -14,6 +13,8 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import SideHeader from './components/SideHeader'
 import LayoutHeader from './components/LayoutHeader'
+import ManagementContextProvider from '../../context/useManagementContext'
+import Home from './home'
 const { Content, Footer, Sider } = Layout
 const { Item } = Breadcrumb
 
@@ -33,8 +34,7 @@ const items = [
     getItem('Albums', '4', <PictureOutlined />),
     getItem('Artist', '5', <TeamOutlined />),
     getItem('Genres', '6', <BarsOutlined />),
-    getItem('Tags', '7', <StarOutlined />),
-    getItem('Files', '8', <FileOutlined />)
+    getItem('Tags', '7', <StarOutlined />)
 ]
 
 const siderItems = [
@@ -79,12 +79,6 @@ const siderItems = [
         icon: <StarOutlined />,
         label: 'Tags',
         url: '/management/tags'
-    },
-    {
-        key: '8',
-        icon: <FileOutlined />,
-        label: 'Files',
-        url: '/management/files'
     }
 ]
 
@@ -104,80 +98,84 @@ const AdminHome = () => {
     const currentTab = window.location.pathname.toString()
 
     return (
-        <Layout
-            style={{
-                minHeight: '100vh'
-            }}
-        >
-            <Sider
-                theme="light"
-                collapsible
-                collapsed={collapsed}
-                onCollapse={(value) => setCollapsed(value)}
-                width={250}
+        <ManagementContextProvider>
+            <Layout
+                style={{
+                    minHeight: '100vh'
+                }}
             >
-                <SideHeader collapsed={collapsed} />
-                <Menu
+                <Sider
                     theme="light"
-                    defaultSelectedKeys={['1']}
-                    mode="inline"
-                    items={items}
-                    onSelect={onSelect}
-                />
-            </Sider>
-            <Layout>
-                <LayoutHeader />
-                <Content
-                    style={{
-                        margin: '0 16px'
-                    }}
+                    collapsible
+                    collapsed={collapsed}
+                    onCollapse={(value) => setCollapsed(value)}
+                    width={250}
                 >
-                    <Breadcrumb
+                    <SideHeader collapsed={collapsed} />
+                    <Menu
+                        theme="light"
+                        defaultSelectedKeys={['1']}
+                        mode="inline"
+                        items={items}
+                        onSelect={onSelect}
+                    />
+                </Sider>
+                <Layout>
+                    <LayoutHeader />
+                    <Content
                         style={{
-                            margin: '16px 0'
+                            margin: '0 16px'
                         }}
                     >
-                        {siderItems?.map((item) => (
-                            <Item>
-                                <Link to={item?.url}>
-                                    {item?.url === currentTab ? (
-                                        <div
-                                            style={{
-                                                color: '#169bff',
-                                                fontWeight: 'bold'
-                                            }}
-                                        >
-                                            {item?.label}
-                                        </div>
-                                    ) : (
-                                        item?.label
-                                    )}
-                                </Link>
-                            </Item>
-                        ))}
-                    </Breadcrumb>
-                    <div
+                        <Breadcrumb
+                            style={{
+                                margin: '16px 0'
+                            }}
+                        >
+                            {siderItems?.map((item) => (
+                                <Item key={item?.key}>
+                                    <Link to={item?.url}>
+                                        {item?.url === currentTab ? (
+                                            <div
+                                                style={{
+                                                    color: '#169bff',
+                                                    fontWeight: 'bold'
+                                                }}
+                                            >
+                                                {item?.label}
+                                            </div>
+                                        ) : (
+                                            item?.label
+                                        )}
+                                    </Link>
+                                </Item>
+                            ))}
+                        </Breadcrumb>
+                        <div
+                            style={{
+                                padding: 24,
+                                minHeight: 360,
+                                height: 'calc(100vh - 182px)',
+                                background: colorBgContainer,
+                                borderRadius: borderRadiusLG,
+                                overflow: 'auto'
+                            }}
+                        >
+                            <Home />
+                            <Outlet />
+                        </div>
+                    </Content>
+                    <Footer
                         style={{
-                            padding: 24,
-                            minHeight: 360,
-                            height: 'calc(100vh - 182px)',
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                            overflow: 'auto'
+                            textAlign: 'center'
                         }}
                     >
-                        <Outlet />
-                    </div>
-                </Content>
-                <Footer
-                    style={{
-                        textAlign: 'center'
-                    }}
-                >
-                    Music Social ©{new Date().getFullYear()} Created by SWPTS
-                </Footer>
+                        Music Social ©{new Date().getFullYear()} Created by
+                        SWPTS
+                    </Footer>
+                </Layout>
             </Layout>
-        </Layout>
+        </ManagementContextProvider>
     )
 }
 

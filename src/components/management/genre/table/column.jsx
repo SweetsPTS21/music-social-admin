@@ -1,35 +1,41 @@
-import { Button, Space } from 'antd'
-import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
+import { Button, Space, Typography } from 'antd'
+import { DeleteTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { useGenreContext } from '../../../../context/useGenreContext'
 
-export const Columns = (
-    tableParams,
-    setTableParams,
-    setData,
-    changeEditModalState
-) => {
-    const { changeModalMode, changeDeleteModalState } = useGenreContext()
+const { Paragraph } = Typography
+
+export const Columns = () => {
+    const { changeDeleteModalState, handleUpdateGenre } = useGenreContext()
+
+    const handleChange = (record, value) => {
+        if (record?.tag === value) return
+        handleUpdateGenre(record?.id, { name: value })
+    }
 
     const columns = [
         {
             title: 'Genre',
             dataIndex: 'genre',
             key: 'genre',
-            width: '10%'
+            width: '10%',
+            render: (text, record) => (
+                <Paragraph
+                    editable={{
+                        onChange: handleChange.bind(this, record),
+                        text: text
+                    }}
+                    ellipsis={{
+                        suffix: text
+                    }}
+                />
+            )
         },
         {
             title: 'Actions',
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button
-                        icon={<EditTwoTone />}
-                        onClick={() => {
-                            changeModalMode('update')
-                            changeEditModalState(record)
-                        }}
-                    />
                     <Button
                         icon={<DeleteTwoTone twoToneColor={'#ff0000'} />}
                         onClick={() => changeDeleteModalState(record)}

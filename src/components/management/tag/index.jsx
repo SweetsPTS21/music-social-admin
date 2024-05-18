@@ -8,7 +8,6 @@ import TagToolbar from './toolbar'
 const TagManagement = () => {
     return (
         <TagContextProvider>
-            <TagToolbar />
             <TagTable />
             <UpdateTagModal />
             <DeleteTagModal />

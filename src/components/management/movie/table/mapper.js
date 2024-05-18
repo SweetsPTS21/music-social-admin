@@ -4,13 +4,13 @@ export const mapper = (data) => {
     if (!data) return []
 
     return data.map((item) => {
-        console.log('item', item)
         const audio = item?.audio || {}
         const thumbnail = item?.thumbnail?.path || ''
         const createDate = dayjs(item?.createDate).format('DD/MM/YYYY hh:mm:ss')
 
         return {
             ...item,
+            key: item?.id,
             audio,
             thumbnail,
             createDate,

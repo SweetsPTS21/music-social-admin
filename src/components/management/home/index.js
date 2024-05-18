@@ -1,7 +1,14 @@
 import React from 'react'
+import { useManagementContext } from '../../../context/useManagementContext'
+import { Spin } from 'antd'
 
 const Home = () => {
-    return <div>Home</div>
+    const { songLoading } = useManagementContext()
+    return (
+        <div>
+            <Spin spinning={songLoading} fullscreen tip="Please wait..." />
+        </div>
+    )
 }
 
 export default Home
