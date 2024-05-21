@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useAlbumContext } from '../../../../context/useAlbumContext'
-import { Button, Col, Flex, Form, Input, message, Modal, Row } from 'antd'
+import { Button, Col, Flex, Form, Input, message, Modal, Row, Tabs } from 'antd'
 import _ from 'lodash'
 import { createAlbum, updateAlbum } from '../../../../api/album/api'
 import UploadImages from '../../components/UploadImages'
 import ArtistSelect from '../../components/ArtistSelect'
+import { useManagementContext } from '../../../../context/useManagementContext'
+import AddSongs from './addSongs'
 
 const UpdateAlbumModal = () => {
     const {
@@ -14,6 +16,8 @@ const UpdateAlbumModal = () => {
         fetchAlbumData,
         modalMode
     } = useAlbumContext()
+
+    const { allSongs } = useManagementContext()
 
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState(null)
@@ -57,8 +61,6 @@ const UpdateAlbumModal = () => {
     }, 500)
 
     const onFinish = (values) => {
-        console.log('form', values)
-
         if (!values) return
 
         delayFn(values)
@@ -81,15 +83,9 @@ const UpdateAlbumModal = () => {
     const onCancel = () => {
         changeEditModalState({})
     }
-    return (
-        <Modal
-            title={modalMode === 'add' ? 'Add new album' : 'Update album'}
-            open={openEditModal}
-            onOk={() => onOk()}
-            onCancel={() => onCancel()}
-            width={800}
-            footer={null}
-        >
+
+    const UpdateForm = () => {
+        return (
             <Form
                 form={form}
                 layout="vertical"
@@ -169,6 +165,31 @@ const UpdateAlbumModal = () => {
                     </Button>
                 </Flex>
             </Form>
+        )
+    }
+
+    const tabItems = [
+        {
+            key: 'update',
+            label: 'Update album',
+            children: <UpdateForm />
+        },
+        {
+            key: 'add',
+            label: 'Song list',
+            children: <AddSongs />
+        }
+    ]
+    return (
+        <Modal
+            title={modalMode === 'add' ? 'Add new album' : 'Update album'}
+            open={openEditModal}
+            onOk={() => onOk()}
+            onCancel={() => onCancel()}
+            width={800}
+            footer={null}
+        >
+            <Tabs items={tabItems} type={'card'} />
         </Modal>
     )
 }
