@@ -17,8 +17,6 @@ const UpdateAlbumModal = () => {
         modalMode
     } = useAlbumContext()
 
-    const { allSongs } = useManagementContext()
-
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState(null)
     const [updateLoading, setUpdateLoading] = useState(false)
@@ -138,6 +136,30 @@ const UpdateAlbumModal = () => {
                         </Form.Item>
                     </Col>
                 </Row>
+            </Form>
+        )
+    }
+
+    const tabItems = [
+        {
+            key: 'update',
+            label: 'Update album',
+            children: <UpdateForm />
+        },
+        {
+            key: 'add',
+            label: 'Song list',
+            children: <AddSongs />
+        }
+    ]
+    return (
+        <Modal
+            title={modalMode === 'add' ? 'Add new album' : 'Update album'}
+            open={openEditModal}
+            onOk={() => onOk()}
+            onCancel={() => onCancel()}
+            width={800}
+            footer={
                 <Flex
                     justify={modalMode === 'add' ? 'space-between' : 'flex-end'}
                 >
@@ -164,30 +186,7 @@ const UpdateAlbumModal = () => {
                         Update
                     </Button>
                 </Flex>
-            </Form>
-        )
-    }
-
-    const tabItems = [
-        {
-            key: 'update',
-            label: 'Update album',
-            children: <UpdateForm />
-        },
-        {
-            key: 'add',
-            label: 'Song list',
-            children: <AddSongs />
-        }
-    ]
-    return (
-        <Modal
-            title={modalMode === 'add' ? 'Add new album' : 'Update album'}
-            open={openEditModal}
-            onOk={() => onOk()}
-            onCancel={() => onCancel()}
-            width={800}
-            footer={null}
+            }
         >
             <Tabs items={tabItems} type={'card'} />
         </Modal>
