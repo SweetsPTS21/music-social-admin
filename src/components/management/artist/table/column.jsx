@@ -16,7 +16,7 @@ export const Columns = (
             title: 'Image',
             dataIndex: 'image',
             key: 'image',
-            width: '10%',
+            width: '20%',
             render: (thumbnail, record) => (
                 <Image src={thumbnail} alt={'thumbnail'} width={80} />
             )
@@ -25,25 +25,25 @@ export const Columns = (
             title: 'Nickname',
             dataIndex: 'nickname',
             key: 'nickname',
-            width: '10%'
+            width: '15%'
         },
         {
             title: 'Country',
             dataIndex: 'country',
             key: 'country',
-            width: '10%'
+            width: '15%'
         },
         {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
-            width: '10%'
+            width: '20%'
         },
         {
             title: 'Website',
             dataIndex: 'websiteUrl',
             key: 'websiteUrl',
-            width: '10%'
+            width: '20%'
         },
         {
             title: 'Actions',

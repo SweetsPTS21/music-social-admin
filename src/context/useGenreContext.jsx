@@ -30,7 +30,7 @@ const GenreContextProvider = ({ children }) => {
         createGenre(data)
             .then((res) => {
                 if (res?.id) {
-                    fetchSongGenres()
+                    fetchSongGenres(0, 100, 'createdDate,desc', '')
                 }
             })
             .catch((err) => {
@@ -46,7 +46,7 @@ const GenreContextProvider = ({ children }) => {
         updateGenre(id, data)
             .then((res) => {
                 if (res?.id) {
-                    fetchSongGenres()
+                    fetchSongGenres(0, 100, 'createdDate,desc', '')
                 }
             })
             .catch((err) => {

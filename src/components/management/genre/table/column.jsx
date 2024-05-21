@@ -18,7 +18,7 @@ export const Columns = () => {
             title: 'Genre',
             dataIndex: 'genre',
             key: 'genre',
-            width: '10%',
+            width: '20%',
             render: (text, record) => (
                 <Paragraph
                     editable={{

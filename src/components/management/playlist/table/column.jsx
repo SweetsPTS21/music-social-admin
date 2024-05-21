@@ -16,7 +16,7 @@ export const Columns = (
             title: 'Thumbnail',
             dataIndex: 'thumbnail',
             key: 'thumbnail',
-            width: '10%',
+            width: '20%',
             render: (thumbnail, record) => (
                 <Image src={thumbnail} alt={'thumbnail'} width={80} />
             )
@@ -25,13 +25,13 @@ export const Columns = (
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            width: '10%'
+            width: '20%'
         },
         {
             title: 'Date',
             dataIndex: 'createDate',
             key: 'createDate',
-            width: '12%',
+            width: '20%',
             render: (text, record) => (
                 <Flex direction="column">
                     <span>{text}</span>
@@ -42,13 +42,13 @@ export const Columns = (
             title: 'Creator',
             dataIndex: 'creator',
             key: 'creator',
-            width: '10%'
+            width: '15%'
         },
         {
             title: 'Likes',
             dataIndex: 'likes',
             key: 'likes',
-            width: '10%'
+            width: '15%'
         },
         {
             title: 'Actions',

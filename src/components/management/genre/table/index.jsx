@@ -87,8 +87,9 @@ const GenreTable = () => {
             loading={genreLoading || loading || genreUpdating || genreCreating}
             onChange={handleTableChange}
             scroll={{
-                y: 600
+                y: 500
             }}
+            className={'ms-common-table'}
         />
     )
 }
