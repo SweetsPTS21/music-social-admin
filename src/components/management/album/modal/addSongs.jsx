@@ -14,13 +14,19 @@ import {
 } from 'antd'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 const { Item } = List
 const { Search } = Input
 
 const AddSongs = () => {
     const { allSongs } = useManagementContext()
-    const { editModalState: currentAlbum, fetchAlbumData } = useAlbumContext()
+    const {
+        editModalState: currentAlbum,
+        fetchAlbumData,
+        albumSongIds,
+        setAlbumSongIds
+    } = useAlbumContext()
 
     const albumSongs = useMemo(() => {
         return currentAlbum?.songs || []
@@ -78,6 +84,8 @@ const AddSongs = () => {
     const addToAlbum = (song) => {
         setAlbumSongsData([song, ...albumSongsData])
 
+        setAlbumSongIds([song?.id, ...albumSongIds])
+
         const filteredSongs = unselectedSongsData?.filter(
             (unselectedSong) => unselectedSong?.id !== song?.id
         )
@@ -89,6 +97,8 @@ const AddSongs = () => {
             (albumSong) => albumSong?.id !== song?.id
         )
         setAlbumSongsData(filteredSongs)
+
+        setAlbumSongIds(albumSongIds?.filter((id) => id !== song?.id))
 
         setUnselectedSongsData([song, ...unselectedSongsData])
     }
@@ -117,7 +127,7 @@ const AddSongs = () => {
                     <InfiniteScroll
                         dataLength={unselectedSongsData?.length}
                         next={loadMoreData}
-                        hasMore={unselectedSongsData?.length < size}
+                        hasMore={unselectedSongs?.length > 10}
                         loader={
                             <Skeleton
                                 avatar
@@ -128,7 +138,10 @@ const AddSongs = () => {
                             />
                         }
                         endMessage={
-                            <Divider plain>It is all, nothing more 🤐</Divider>
+                            <Divider plain>
+                                {'Not in here. '}
+                                <Link to={`/management/songs`}>Add now 🤐</Link>
+                            </Divider>
                         }
                         scrollableTarget="scrollableDiv"
                     >

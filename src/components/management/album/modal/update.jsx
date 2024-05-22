@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useAlbumContext } from '../../../../context/useAlbumContext'
 import { Button, Col, Flex, Form, Input, message, Modal, Row, Tabs } from 'antd'
 import _ from 'lodash'
-import { createAlbum, updateAlbum } from '../../../../api/album/api'
+import {
+    addSongToAlbum,
+    createAlbum,
+    updateAlbum
+} from '../../../../api/album/api'
 import UploadImages from '../../components/UploadImages'
 import ArtistSelect from '../../components/ArtistSelect'
-import { useManagementContext } from '../../../../context/useManagementContext'
 import AddSongs from './addSongs'
 
 const UpdateAlbumModal = () => {
@@ -14,12 +17,14 @@ const UpdateAlbumModal = () => {
         changeEditModalState,
         editModalState: currentAlbum,
         fetchAlbumData,
-        modalMode
+        modalMode,
+        albumSongIds
     } = useAlbumContext()
 
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState(null)
     const [updateLoading, setUpdateLoading] = useState(false)
+    const [currentTab, setCurrentTab] = useState('update')
 
     const delayFn = _.debounce((values) => {
         setUpdateLoading(true)
@@ -58,10 +63,52 @@ const UpdateAlbumModal = () => {
         }
     }, 500)
 
+    const addToAlbum = _.debounce(
+        (songId) => {
+            setUpdateLoading(true)
+            addSongToAlbum(currentAlbum?.id, songId)
+                .then((r) => {
+                    message.success('Song added successfully').then((r) => r)
+                })
+                .finally(() => {
+                    setUpdateLoading(false)
+                })
+        },
+        500,
+        { leading: true, trailing: false }
+    )
+
+    const removeFromAlbum = _.debounce((songId) => {
+        setUpdateLoading(true)
+        addSongToAlbum(currentAlbum?.id, songId)
+            .then((r) => {
+                message.success('Song removed successfully').then((r) => r)
+            })
+            .finally(() => {
+                setUpdateLoading(false)
+            })
+    }, 500)
+
     const onFinish = (values) => {
         if (!values) return
 
-        delayFn(values)
+        if (currentTab === 'update') {
+            delayFn(values)
+        } else {
+            const songs = currentAlbum?.songs?.map((song) => song?.id) || []
+
+            albumSongIds?.forEach((songId) => {
+                if (songs?.includes(songId)) return
+
+                addToAlbum(songId)
+            })
+
+            songs.forEach((songId) => {
+                if (albumSongIds?.includes(songId)) return
+
+                removeFromAlbum(songId)
+            })
+        }
     }
 
     useEffect(() => {
@@ -152,6 +199,11 @@ const UpdateAlbumModal = () => {
             children: <AddSongs />
         }
     ]
+
+    const handleChangeTab = (key) => {
+        setCurrentTab(key)
+    }
+
     return (
         <Modal
             title={modalMode === 'add' ? 'Add new album' : 'Update album'}
@@ -188,7 +240,7 @@ const UpdateAlbumModal = () => {
                 </Flex>
             }
         >
-            <Tabs items={tabItems} type={'card'} />
+            <Tabs items={tabItems} type={'card'} onChange={handleChangeTab} />
         </Modal>
     )
 }

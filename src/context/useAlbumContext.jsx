@@ -11,6 +11,8 @@ const AlbumContextProvider = ({ children }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deleteModalState, setDeleteModalState] = useState({})
 
+    const [albumSongIds, setAlbumSongIds] = useState([])
+
     const changeEditModalState = (data) => {
         setEditModalState(data)
         setOpenEditModal(!openEditModal)
@@ -34,14 +36,17 @@ const AlbumContextProvider = ({ children }) => {
             changeModalMode,
             openDeleteModal,
             deleteModalState,
-            changeDeleteModalState
+            changeDeleteModalState,
+            albumSongIds,
+            setAlbumSongIds
         }
     }, [
         openEditModal,
         editModalState,
         modalMode,
         openDeleteModal,
-        deleteModalState
+        deleteModalState,
+        albumSongIds
     ])
 
     return (
