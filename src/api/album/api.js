@@ -68,3 +68,14 @@ export const addSongToAlbum = async (id, songId) => {
             return {}
         })
 }
+
+export const removeSongFromAlbum = async (id, songId) => {
+    return MS_axios.delete(`${BASE_URL_ALBUMS}/${id}/songs/${songId}`)
+        .then((res) => {
+            return res.data || {}
+        })
+        .catch((err) => {
+            console.log(err)
+            return {}
+        })
+}

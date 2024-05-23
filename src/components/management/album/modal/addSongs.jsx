@@ -10,57 +10,51 @@ import {
     Input,
     List,
     Row,
-    Skeleton
+    Skeleton,
+    Spin,
+    Tooltip,
+    Typography
 } from 'antd'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import { addSongToAlbum, removeSongFromAlbum } from '../../../../api/album/api'
 
 const { Item } = List
 const { Search } = Input
+const { Text } = Typography
 
 const AddSongs = () => {
     const { allSongs } = useManagementContext()
     const {
         editModalState: currentAlbum,
-        fetchAlbumData,
-        albumSongIds,
-        setAlbumSongIds
+        fetchAlbum,
+        albumLoading
     } = useAlbumContext()
 
-    const albumSongs = useMemo(() => {
-        return currentAlbum?.songs || []
-    }, [currentAlbum])
-
-    const unselectedSongs = useMemo(() => {
-        return allSongs?.filter((song) => {
-            return !albumSongs?.find((albumSong) => albumSong?.id === song?.id)
-        })
-    }, [allSongs, albumSongs])
+    console.log('currentAlbum', currentAlbum)
 
     const [albumSongsData, setAlbumSongsData] = useState([])
     const [unselectedSongsData, setUnselectedSongsData] = useState([])
 
-    const [page, setPage] = useState(1)
-    const [size, setSize] = useState(3)
-
     const [searchAlbumSongs, setSearchAlbumSongs] = useState('')
     const [searchUnselectedSongs, setSearchUnselectedSongs] = useState('')
+    const [updateLoading, setUpdateLoading] = useState(false)
 
     useEffect(() => {
-        if (currentAlbum?.length > 0) {
-            setAlbumSongsData(albumSongs)
+        if (currentAlbum?.songs?.length > 0) {
+            setAlbumSongsData(currentAlbum?.songs)
         }
     }, [currentAlbum])
 
     useEffect(() => {
-        if (unselectedSongs?.length > 0) {
-            setUnselectedSongsData(unselectedSongs)
+        if (allSongs?.length > 0) {
+            setUnselectedSongsData(allSongs)
         }
-    }, [unselectedSongs])
+    }, [allSongs])
 
     useEffect(() => {
-        const filter = albumSongs?.filter((song) => {
+        const filter = currentAlbum?.songs?.filter((song) => {
             return song?.name
                 ?.toLowerCase()
                 .includes(searchAlbumSongs.toLowerCase())
@@ -69,7 +63,7 @@ const AddSongs = () => {
     }, [searchAlbumSongs])
 
     useEffect(() => {
-        const filter = unselectedSongs?.filter((song) => {
+        const filter = allSongs?.filter((song) => {
             return song?.name
                 ?.toLowerCase()
                 .includes(searchUnselectedSongs.toLowerCase())
@@ -82,25 +76,29 @@ const AddSongs = () => {
     }
 
     const addToAlbum = (song) => {
-        setAlbumSongsData([song, ...albumSongsData])
-
-        setAlbumSongIds([song?.id, ...albumSongIds])
-
-        const filteredSongs = unselectedSongsData?.filter(
-            (unselectedSong) => unselectedSong?.id !== song?.id
-        )
-        setUnselectedSongsData(filteredSongs)
+        setUpdateLoading(true)
+        addSongToAlbum(currentAlbum?.id, song?.id)
+            .then((res) => {
+                if (res?.id) {
+                    fetchAlbum(currentAlbum?.id)
+                }
+            })
+            .finally(() => {
+                setUpdateLoading(false)
+            })
     }
 
     const removeFromAlbum = (song) => {
-        const filteredSongs = albumSongsData?.filter(
-            (albumSong) => albumSong?.id !== song?.id
-        )
-        setAlbumSongsData(filteredSongs)
-
-        setAlbumSongIds(albumSongIds?.filter((id) => id !== song?.id))
-
-        setUnselectedSongsData([song, ...unselectedSongsData])
+        setUpdateLoading(true)
+        removeSongFromAlbum(currentAlbum?.id, song?.id)
+            .then((res) => {
+                if (res?.id) {
+                    fetchAlbum(currentAlbum?.id)
+                }
+            })
+            .finally(() => {
+                setUpdateLoading(false)
+            })
     }
 
     const isInAlbum = (song) => {
@@ -127,7 +125,7 @@ const AddSongs = () => {
                     <InfiniteScroll
                         dataLength={unselectedSongsData?.length}
                         next={loadMoreData}
-                        hasMore={unselectedSongs?.length > 10}
+                        hasMore={allSongs?.length > 10}
                         loader={
                             <Skeleton
                                 avatar
@@ -162,12 +160,20 @@ const AddSongs = () => {
                                         }
                                         description={item?.caption}
                                     />
-                                    <Button
-                                        type="primary"
-                                        icon={<PlusOutlined />}
-                                        onClick={() => addToAlbum(item)}
-                                        disabled={isInAlbum(item)}
-                                    />
+                                    <Tooltip
+                                        title={
+                                            isInAlbum(item)
+                                                ? 'Already added'
+                                                : 'Add this song to album'
+                                        }
+                                    >
+                                        <Button
+                                            type="primary"
+                                            icon={<PlusOutlined />}
+                                            onClick={() => addToAlbum(item)}
+                                            disabled={isInAlbum(item)}
+                                        />
+                                    </Tooltip>
                                 </Item>
                             )}
                         />
@@ -199,12 +205,14 @@ const AddSongs = () => {
                                 }
                                 description={item?.caption}
                             />
-                            <Button
-                                type="primary"
-                                danger
-                                icon={<MinusOutlined />}
-                                onClick={() => removeFromAlbum(item)}
-                            />
+                            <Tooltip title={'Remove song from album'}>
+                                <Button
+                                    type="primary"
+                                    danger
+                                    icon={<MinusOutlined />}
+                                    onClick={() => removeFromAlbum(item)}
+                                />
+                            </Tooltip>
                         </Item>
                     )}
                 />
@@ -213,10 +221,29 @@ const AddSongs = () => {
     }
 
     return (
-        <Row gutter={[16, 16]}>
-            <Col span={12}>{renderAlbumSongs()}</Col>
-            <Col span={12}>{renderAllSongs()}</Col>
-        </Row>
+        <Spin spinning={updateLoading || albumLoading}>
+            <Row gutter={[16, 16]}>
+                <Col span={11}>
+                    <Flex vertical gap={8}>
+                        <Text strong>Album songs</Text>
+                        {renderAlbumSongs()}
+                    </Flex>
+                </Col>
+                <Col span={1}>
+                    <Divider
+                        type="vertical"
+                        orientation={'center'}
+                        className={'h-[33rem]'}
+                    />
+                </Col>
+                <Col span={12}>
+                    <Flex vertical gap={8}>
+                        <Text strong>All songs</Text>
+                        {renderAllSongs()}
+                    </Flex>
+                </Col>
+            </Row>
+        </Spin>
     )
 }
 

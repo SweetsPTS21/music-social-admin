@@ -130,30 +130,7 @@ const AdminHome = () => {
                                 margin: '0 16px'
                             }}
                         >
-                            <Breadcrumb
-                                style={{
-                                    margin: '16px 0'
-                                }}
-                            >
-                                {siderItems?.map((item) => (
-                                    <Item key={item?.key}>
-                                        <Link to={item?.url}>
-                                            {item?.url === currentTab ? (
-                                                <div
-                                                    style={{
-                                                        color: '#169bff',
-                                                        fontWeight: 'bold'
-                                                    }}
-                                                >
-                                                    {item?.label}
-                                                </div>
-                                            ) : (
-                                                item?.label
-                                            )}
-                                        </Link>
-                                    </Item>
-                                ))}
-                            </Breadcrumb>
+                            <div className={'mb-4'} />
                             <div
                                 style={{
                                     padding: 24,

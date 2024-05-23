@@ -45,8 +45,7 @@ MS_axios.interceptors.response.use(
         console.log('error', error)
 
         if (
-            (error?.response?.status === 401 ||
-                error?.response?.status === 403) &&
+            error?.response?.status === 401 &&
             !error?.config?.url.includes('/authenticate')
         ) {
             // Handle unauthorized errors (e.g., redirect to login)
