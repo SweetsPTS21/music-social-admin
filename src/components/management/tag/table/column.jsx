@@ -18,7 +18,7 @@ export const Columns = () => {
             title: 'Tag',
             dataIndex: 'tag',
             key: 'tag',
-            width: '10%',
+            width: '20%',
             render: (text, record) => (
                 <Paragraph
                     editable={{

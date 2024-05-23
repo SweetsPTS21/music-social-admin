@@ -94,6 +94,7 @@ const ArtistTable = () => {
             scroll={{
                 y: 600
             }}
+            className={'ms-common-table'}
         />
     )
 }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { message } from 'antd'
+import { message, notification } from 'antd'
 
 export const MS_axios = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -45,22 +45,31 @@ MS_axios.interceptors.response.use(
         console.log('error', error)
 
         if (
-            (error?.response?.status === 401 ||
-                error?.response?.status === 403) &&
+            error?.response?.status === 401 &&
             !error?.config?.url.includes('/authenticate')
         ) {
             // Handle unauthorized errors (e.g., redirect to login)
             // clear localStorage
-            localStorage.clear()
+            window.localStorage.clear()
 
             //clear cookies
             Cookies.remove('accessToken')
 
             // redirect to login
-            //window.location.href = '/login'
+            window.location.href = '/login'
+
+            notification.error({
+                message: 'Error',
+                description: 'Token expired, please login again'
+            })
+        } else {
+            notification.error({
+                message: 'Error',
+                description: error?.response?.data?.detail
+            })
         }
 
-        if (!error?.response || error?.response?.status === 403) {
+        if (!error?.response || error?.response?.status === 500) {
             // Handle network errors (e.g., display error message)
             console.log('Network Error', error)
             message.error('Network Error').then((r) => r)

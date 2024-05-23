@@ -4,12 +4,15 @@ import UpdatePlaylistModal from './modal/update'
 import PlaylistTable from './table'
 import DeletePlaylistModal from './modal/delete'
 import PlaylistToolbar from './toolbar'
+import { Flex } from 'antd'
 
 const PlaylistManagement = () => {
     return (
         <PlaylistContextProvider>
-            <PlaylistToolbar />
-            <PlaylistTable />
+            <Flex vertical className={'h-full'}>
+                <PlaylistToolbar />
+                <PlaylistTable />
+            </Flex>
             <UpdatePlaylistModal />
             <DeletePlaylistModal />
         </PlaylistContextProvider>

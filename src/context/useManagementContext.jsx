@@ -45,7 +45,7 @@ const ManagementContextProvider = ({ children }) => {
                 page,
                 size,
                 sort,
-                searchText
+                searchText: searchText || ''
             })
             setAllSongs(res)
         } catch (error) {
@@ -63,7 +63,7 @@ const ManagementContextProvider = ({ children }) => {
                     page,
                     size,
                     sort,
-                    searchText
+                    searchText: searchText || ''
                 })
                 setAllArtist(res)
             } catch (error) {
@@ -82,8 +82,8 @@ const ManagementContextProvider = ({ children }) => {
                 const res = await getSongGenres({
                     page,
                     size,
-                    sort,
-                    searchText
+                    sort: sort || 'createdDate,desc',
+                    searchText: searchText || ''
                 })
                 setSongGenres(res)
             } catch (error) {
@@ -115,7 +115,7 @@ const ManagementContextProvider = ({ children }) => {
                     page,
                     size,
                     sort,
-                    searchText
+                    searchText: searchText || ''
                 })
                 setAllPlaylist(res)
             } catch (error) {
@@ -134,7 +134,7 @@ const ManagementContextProvider = ({ children }) => {
                 page,
                 size,
                 sort,
-                searchText
+                searchText: searchText || ''
             })
             setAllAlbums(res)
         } catch (error) {

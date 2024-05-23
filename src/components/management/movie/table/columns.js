@@ -153,14 +153,14 @@ export const Columns = (
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            width: '10%',
+            width: '15%',
             ...getColumnSearchProps('name')
         },
         {
             title: 'Date',
             dataIndex: 'createDate',
             key: 'createDate',
-            width: '12%',
+            width: '15%',
             ...getColumnSearchProps('createDate'),
             render: (text, record) => (
                 <Flex direction="column">
@@ -172,7 +172,7 @@ export const Columns = (
             title: 'Tags',
             dataIndex: 'tags',
             key: 'tags',
-            width: '10%',
+            width: '20%',
             // ...getColumnSearchProps('plot'),
             // sorter: (a, b) => a.plot.length - b.plot.length,
             // sortDirections: ['descend', 'ascend'],
@@ -190,6 +190,7 @@ export const Columns = (
             title: 'Audio',
             dataIndex: 'audio',
             key: 'audio',
+            width: '30%',
             // ...getColumnSearchProps('audio'),
             render: (text, record) => (
                 <audio controls>

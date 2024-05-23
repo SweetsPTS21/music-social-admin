@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
-import { Table } from 'antd'
+import { Flex, Table } from 'antd'
 import { useTagContext } from '../../../../context/useTagContext'
 import { mapper } from './mapper'
 import { Columns } from './column'
@@ -81,7 +81,7 @@ const TagTable = () => {
     }
 
     return (
-        <>
+        <Flex vertical className={'h-full'}>
             <TagToolbar />
             <Table
                 columns={Columns()}
@@ -92,8 +92,9 @@ const TagTable = () => {
                 scroll={{
                     y: 600
                 }}
+                className={'ms-common-table'}
             />
-        </>
+        </Flex>
     )
 }
 
