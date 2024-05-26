@@ -28,7 +28,7 @@ const ManagementContextProvider = ({ children }) => {
     const [tagLoading, setTagLoading] = useState(false)
 
     const [allPlaylist, setAllPlaylist] = useState([])
-    const [playlistLoading, setPlaylistLoading] = useState(false)
+    const [allPlaylistLoading, setAllPlaylistLoading] = useState(false)
 
     const [allAlbums, setAllAlbums] = useState([])
     const [allAlbumsLoading, setAllAlbumsLoading] = useState(false)
@@ -109,7 +109,7 @@ const ManagementContextProvider = ({ children }) => {
 
     const fetchPlaylistData = useCallback(
         async (page, size, sort, searchText) => {
-            setPlaylistLoading(true)
+            setAllPlaylistLoading(true)
             try {
                 const res = await getPlaylists({
                     page: page || pageNumber,
@@ -121,7 +121,7 @@ const ManagementContextProvider = ({ children }) => {
             } catch (error) {
                 console.error('Error fetching playlist:', error)
             } finally {
-                setPlaylistLoading(false)
+                setAllPlaylistLoading(false)
             }
         },
         []
@@ -178,7 +178,7 @@ const ManagementContextProvider = ({ children }) => {
             tagLoading,
             fetchSongTags,
             allPlaylist,
-            playlistLoading,
+            allPlaylistLoading,
             fetchPlaylistData,
             allAlbums,
             allAlbumsLoading,
@@ -194,7 +194,7 @@ const ManagementContextProvider = ({ children }) => {
         songTags,
         tagLoading,
         allPlaylist,
-        playlistLoading,
+        allPlaylistLoading,
         allAlbums,
         allAlbumsLoading
     ])
