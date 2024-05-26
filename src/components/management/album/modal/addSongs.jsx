@@ -26,13 +26,9 @@ const { Text } = Typography
 
 const AddSongs = () => {
     const { allSongs } = useManagementContext()
-    const {
-        editModalState: currentAlbum,
-        fetchAlbum,
-        albumLoading
-    } = useAlbumContext()
+    const { editModalState: currentAlbum, albumLoading } = useAlbumContext()
 
-    console.log('currentAlbum', currentAlbum)
+    const { fetchAlbumData, allAlbumsLoading } = useManagementContext()
 
     const [albumSongsData, setAlbumSongsData] = useState([])
     const [unselectedSongsData, setUnselectedSongsData] = useState([])
@@ -80,7 +76,8 @@ const AddSongs = () => {
         addSongToAlbum(currentAlbum?.id, song?.id)
             .then((res) => {
                 if (res?.id) {
-                    fetchAlbum(currentAlbum?.id)
+                    fetchAlbumData()
+                    setAlbumSongsData([song, ...albumSongsData])
                 }
             })
             .finally(() => {
@@ -93,7 +90,12 @@ const AddSongs = () => {
         removeSongFromAlbum(currentAlbum?.id, song?.id)
             .then((res) => {
                 if (res?.id) {
-                    fetchAlbum(currentAlbum?.id)
+                    fetchAlbumData()
+                    setAlbumSongsData(
+                        albumSongsData?.filter(
+                            (albumSong) => albumSong?.id !== song?.id
+                        )
+                    )
                 }
             })
             .finally(() => {
@@ -221,7 +223,7 @@ const AddSongs = () => {
     }
 
     return (
-        <Spin spinning={updateLoading || albumLoading}>
+        <Spin spinning={updateLoading || albumLoading || allAlbumsLoading}>
             <Row gutter={[16, 16]}>
                 <Col span={11}>
                     <Flex vertical gap={8}>
@@ -233,7 +235,7 @@ const AddSongs = () => {
                     <Divider
                         type="vertical"
                         orientation={'center'}
-                        className={'h-[33rem]'}
+                        className={'h-[33em]'}
                     />
                 </Col>
                 <Col span={12}>
