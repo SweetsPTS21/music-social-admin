@@ -8,6 +8,8 @@ import SignupPage from './components/signup'
 import AuthedContextProvider from './context/useAuthedContext'
 import Page403 from './common/error/Page403'
 import { ManagementRoute } from './components/management/route/route'
+import ActiveUser from './components/active'
+import ResetPassword from './components/reset-password'
 
 function App() {
     return (
@@ -24,6 +26,8 @@ function App() {
                         </Route>
                         <Route path="login" element={<LoginPage />} />
                         <Route path="signup" element={<SignupPage />} />
+                        <Route path="active" element={<ActiveUser />} />
+                        <Route path="reset" element={<ResetPassword />} />
                         <Route
                             index
                             path="management/*"
