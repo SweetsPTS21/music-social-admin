@@ -69,7 +69,7 @@ MS_axios.interceptors.response.use(
             })
         }
 
-        if (!error?.response || error?.response?.status === 500) {
+        if (!error?.response) {
             // Handle network errors (e.g., display error message)
             console.log('Network Error', error)
             message.error('Network Error').then((r) => r)
