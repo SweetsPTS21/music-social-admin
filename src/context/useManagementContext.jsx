@@ -31,20 +31,20 @@ const ManagementContextProvider = ({ children }) => {
     const [playlistLoading, setPlaylistLoading] = useState(false)
 
     const [allAlbums, setAllAlbums] = useState([])
-    const [albumLoading, setAlbumLoading] = useState(false)
+    const [allAlbumsLoading, setAllAlbumsLoading] = useState(false)
 
     const [searchText, setSearchText] = useState('')
-    const [page, setPage] = useState(0)
-    const [size, setSize] = useState(50)
-    const [sort, setSort] = useState('createdDate,desc')
+    const [pageNumber, setPageNumber] = useState(0)
+    const [pageSize, setPageSize] = useState(50)
+    const [sortPage, setSortPage] = useState('createdDate,desc')
 
     const fetchSongsData = useCallback(async (page, size, sort, searchText) => {
         setSongLoading(true)
         try {
             const res = await getSongs({
-                page,
-                size,
-                sort,
+                page: page || pageNumber,
+                size: size || pageSize,
+                sort: sort || sortPage,
                 searchText: searchText || ''
             })
             setAllSongs(res)
@@ -60,9 +60,9 @@ const ManagementContextProvider = ({ children }) => {
             setArtistLoading(true)
             try {
                 const res = await getArtists({
-                    page,
-                    size,
-                    sort,
+                    page: page || pageNumber,
+                    size: size || pageSize,
+                    sort: sort || sortPage,
                     searchText: searchText || ''
                 })
                 setAllArtist(res)
@@ -80,9 +80,9 @@ const ManagementContextProvider = ({ children }) => {
             setGenreLoading(true)
             try {
                 const res = await getSongGenres({
-                    page,
-                    size,
-                    sort: sort || 'createdDate,desc',
+                    page: page || pageNumber,
+                    size: size || pageSize,
+                    sort: sort || sortPage,
                     searchText: searchText || ''
                 })
                 setSongGenres(res)
@@ -112,9 +112,9 @@ const ManagementContextProvider = ({ children }) => {
             setPlaylistLoading(true)
             try {
                 const res = await getPlaylists({
-                    page,
-                    size,
-                    sort,
+                    page: page || pageNumber,
+                    size: size || pageSize,
+                    sort: sort || sortPage,
                     searchText: searchText || ''
                 })
                 setAllPlaylist(res)
@@ -128,29 +128,39 @@ const ManagementContextProvider = ({ children }) => {
     )
 
     const fetchAlbumData = useCallback(async (page, size, sort, searchText) => {
-        setAlbumLoading(true)
+        setAllAlbumsLoading(true)
         try {
             const res = await getAlbums({
-                page,
-                size,
-                sort,
+                page: page || pageNumber,
+                size: size || pageSize,
+                sort: sort || sortPage,
                 searchText: searchText || ''
             })
             setAllAlbums(res)
         } catch (error) {
             console.error('Error fetching album:', error)
         } finally {
-            setAlbumLoading(false)
+            setAllAlbumsLoading(false)
         }
     }, [])
 
     useEffect(() => {
-        fetchSongsData(page, size, sort, searchText).then((r) => r)
-        fetchArtistData(page, size, sort, searchText).then((r) => r)
-        fetchSongGenres(page, size, sort, searchText).then((r) => r)
-        fetchSongTags(page, size, sort, searchText).then((r) => r)
-        fetchPlaylistData(page, size, sort, searchText).then((r) => r)
-        fetchAlbumData(page, size, sort, searchText).then((r) => r)
+        fetchSongsData(pageNumber, pageSize, sortPage, searchText).then(
+            (r) => r
+        )
+        fetchArtistData(pageNumber, pageSize, sortPage, searchText).then(
+            (r) => r
+        )
+        fetchSongGenres(pageNumber, pageSize, sortPage, searchText).then(
+            (r) => r
+        )
+        fetchSongTags(pageNumber, pageSize, sortPage, searchText).then((r) => r)
+        fetchPlaylistData(pageNumber, pageSize, sortPage, searchText).then(
+            (r) => r
+        )
+        fetchAlbumData(pageNumber, pageSize, sortPage, searchText).then(
+            (r) => r
+        )
     }, [])
 
     const contextValue = useMemo(() => {
@@ -171,7 +181,7 @@ const ManagementContextProvider = ({ children }) => {
             playlistLoading,
             fetchPlaylistData,
             allAlbums,
-            albumLoading,
+            allAlbumsLoading,
             fetchAlbumData
         }
     }, [
@@ -186,7 +196,7 @@ const ManagementContextProvider = ({ children }) => {
         allPlaylist,
         playlistLoading,
         allAlbums,
-        albumLoading
+        allAlbumsLoading
     ])
 
     return (
