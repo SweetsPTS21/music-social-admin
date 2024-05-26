@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
+import { getPlaylist, getPlaylistSongs } from '../api/playlist/api'
 
 export const PlaylistContext = createContext(null)
 export const usePlaylistContext = () => useContext(PlaylistContext)
@@ -10,6 +11,33 @@ const PlaylistContextProvider = ({ children }) => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deleteModalState, setDeleteModalState] = useState({})
+
+    const [playlistLoading, setPlaylistLoading] = useState(false)
+    const [playlistSongs, setPlaylistSongs] = useState([])
+
+    const fetchPlaylist = _.debounce(async (id) => {
+        setPlaylistLoading(true)
+        const res = await getPlaylist(id)
+
+        setEditModalState(mapPlaylistData(res))
+        setPlaylistLoading(false)
+    }, 300)
+
+    const fetchPlaylistSongs = _.debounce(async (id) => {
+        setPlaylistLoading(true)
+        const res = await getPlaylistSongs(id)
+
+        setPlaylistSongs(res)
+        setPlaylistLoading(false)
+    }, 300)
+
+    const mapPlaylistData = (data) => {
+        return {
+            ...data,
+            key: data.id,
+            thumbnail: data?.thumbnail?.path
+        }
+    }
 
     const changeEditModalState = (data) => {
         setEditModalState(data)
@@ -34,14 +62,20 @@ const PlaylistContextProvider = ({ children }) => {
             changeModalMode,
             openDeleteModal,
             deleteModalState,
-            changeDeleteModalState
+            changeDeleteModalState,
+            playlistLoading,
+            fetchPlaylist,
+            playlistSongs,
+            fetchPlaylistSongs
         }
     }, [
         openEditModal,
         editModalState,
         modalMode,
         openDeleteModal,
-        deleteModalState
+        deleteModalState,
+        playlistLoading,
+        playlistSongs
     ])
 
     return (

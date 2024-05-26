@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Flex, Form, Input, message, Modal, Row } from 'antd'
+import { Button, Col, Flex, Form, Input, message, Modal, Row, Tabs } from 'antd'
 import { usePlaylistContext } from '../../../../context/usePlaylistContext'
 import UploadImages from '../../components/UploadImages'
 import _ from 'lodash'
 import { createPlaylist, updatePlaylist } from '../../../../api/playlist/api'
+import AddSongs from './addSongs'
 
 const UpdatePlaylistModal = () => {
     const {
@@ -17,6 +18,7 @@ const UpdatePlaylistModal = () => {
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState(null)
     const [updateLoading, setUpdateLoading] = useState(false)
+    const [currentTab, setCurrentTab] = useState('update')
 
     const delayFn = _.debounce((values) => {
         setUpdateLoading(true)
@@ -33,8 +35,6 @@ const UpdatePlaylistModal = () => {
         for (let [key, value] of newData.entries()) {
             allValues[key] = value
         }
-
-        console.log(allValues)
 
         if (modalMode === 'add') {
             createPlaylist(newData)
@@ -62,8 +62,6 @@ const UpdatePlaylistModal = () => {
     }, 500)
 
     const onFinish = (values) => {
-        console.log('form', values)
-
         if (!values) return
 
         delayFn(values)
@@ -86,15 +84,13 @@ const UpdatePlaylistModal = () => {
     const onCancel = () => {
         changeEditModalState({})
     }
-    return (
-        <Modal
-            title={modalMode === 'add' ? 'Add new playlist' : 'Update playlist'}
-            open={openEditModal}
-            onOk={() => onOk()}
-            onCancel={() => onCancel()}
-            width={800}
-            footer={null}
-        >
+
+    const handleChangeTab = (key) => {
+        setCurrentTab(key)
+    }
+
+    const UpdateForm = () => {
+        return (
             <Form
                 form={form}
                 layout="vertical"
@@ -158,16 +154,44 @@ const UpdatePlaylistModal = () => {
                             Clear all
                         </Button>
                     )}
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        onClick={() => form.submit()}
-                        loading={updateLoading}
-                    >
-                        Update
-                    </Button>
+                    {currentTab === 'update' && (
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            onClick={() => form.submit()}
+                            loading={updateLoading}
+                        >
+                            Update
+                        </Button>
+                    )}
                 </Flex>
             </Form>
+        )
+    }
+
+    const tabItems = [
+        {
+            key: 'update',
+            label: 'Update album',
+            children: <UpdateForm />
+        },
+        {
+            key: 'add',
+            label: 'Song list',
+            children: <AddSongs />
+        }
+    ]
+
+    return (
+        <Modal
+            title={modalMode === 'add' ? 'Add new playlist' : 'Update playlist'}
+            open={openEditModal}
+            onOk={() => onOk()}
+            onCancel={() => onCancel()}
+            width={800}
+            footer={null}
+        >
+            <Tabs items={tabItems} type={'card'} onChange={handleChangeTab} />
         </Modal>
     )
 }

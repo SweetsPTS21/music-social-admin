@@ -57,3 +57,38 @@ export const deletePlaylist = async (id) => {
             return {}
         })
 }
+
+export const getPlaylistSongs = async (id) => {
+    return MS_axios.get(`${BASE_URL_PLAYLISTS}/${id}/songs`)
+        .then((res) => {
+            return res.data || []
+        })
+        .catch((err) => {
+            console.log(err)
+            return []
+        })
+}
+
+export const addSongToPlaylist = async (playlistId, songId) => {
+    return MS_axios.post(`${BASE_URL_PLAYLISTS}/${playlistId}/songs/${songId}`)
+        .then((res) => {
+            return res.data || {}
+        })
+        .catch((err) => {
+            console.log(err)
+            return {}
+        })
+}
+
+export const removeSongFromPlaylist = async (playlistId, songId) => {
+    return MS_axios.delete(
+        `${BASE_URL_PLAYLISTS}/${playlistId}/songs/${songId}`
+    )
+        .then((res) => {
+            return res.data || {}
+        })
+        .catch((err) => {
+            console.log(err)
+            return {}
+        })
+}
