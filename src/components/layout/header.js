@@ -1,11 +1,15 @@
 import React from 'react'
 import { Flex, Layout, Select } from 'antd'
-import PropTypes from 'prop-types'
 import appLogo from '../../assets/icon/mslogo.png'
 
-const Header = (props) => {
+const Header = () => {
     return (
-        <Layout.Header className={'bg-white p-4 w-full'}>
+        <Layout.Header
+            className={'bg-white p-4 w-full'}
+            style={{
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)'
+            }}
+        >
             <Flex
                 justify={'space-between'}
                 align={'center'}
@@ -24,17 +28,6 @@ const Header = (props) => {
             </Flex>
         </Layout.Header>
     )
-}
-Header.propTypes = {
-    type: PropTypes.string,
-    width: PropTypes.string,
-    bgColor: PropTypes.string
-}
-
-Header.defaultProps = {
-    type: 'home',
-    width: '100%',
-    bgColor: 'transparent'
 }
 
 export default Header
