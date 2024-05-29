@@ -17,8 +17,18 @@ const GenreContextProvider = ({ children }) => {
     const [genreCreating, setGenreCreating] = useState(false)
     const [genreUpdating, setGenreUpdating] = useState(false)
 
+    const [openEditModal, setOpenEditModal] = useState(false)
+    const [editModalState, setEditModalState] = useState({})
+
+    const [modalMode, setModalMode] = useState(null)
+
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deleteModalState, setDeleteModalState] = useState({})
+
+    const changeEditModalState = (data) => {
+        setEditModalState(data)
+        setOpenEditModal(!openEditModal)
+    }
 
     const changeDeleteModalState = (data) => {
         setDeleteModalState(data)
@@ -59,6 +69,12 @@ const GenreContextProvider = ({ children }) => {
 
     const contextValue = useMemo(() => {
         return {
+            openEditModal,
+            editModalState,
+            setEditModalState,
+            changeEditModalState,
+            modalMode,
+            setModalMode,
             openDeleteModal,
             deleteModalState,
             changeDeleteModalState,
@@ -67,7 +83,15 @@ const GenreContextProvider = ({ children }) => {
             handleCreateGenre,
             handleUpdateGenre
         }
-    }, [openDeleteModal, deleteModalState, genreUpdating, genreCreating])
+    }, [
+        openDeleteModal,
+        deleteModalState,
+        genreUpdating,
+        genreCreating,
+        openEditModal,
+        editModalState,
+        modalMode
+    ])
 
     return (
         <GenreContext.Provider value={contextValue}>
