@@ -1,16 +1,21 @@
-import { Button, Space, Typography } from 'antd'
-import { DeleteTwoTone } from '@ant-design/icons'
+import { Button, Image, Space, Typography } from 'antd'
+import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { useGenreContext } from '../../../../context/useGenreContext'
 
 const { Paragraph } = Typography
 
 export const Columns = () => {
-    const { changeDeleteModalState, handleUpdateGenre } = useGenreContext()
+    const { changeDeleteModalState, changeEditModalState, setModalMode, handleUpdateGenre } = useGenreContext()
 
-    const handleChange = (record, value) => {
-        if (record?.tag === value) return
-        handleUpdateGenre(record?.id, { name: value })
+    // const handleChange = (record, value) => {
+    //     if (record?.tag === value) return
+    //     handleUpdateGenre(record?.id, { name: value })
+    // }
+
+    const handleEdit = (record) => {
+        changeEditModalState(record)
+        setModalMode('update')
     }
 
     const columns = [
@@ -21,10 +26,6 @@ export const Columns = () => {
             width: '20%',
             render: (text, record) => (
                 <Paragraph
-                    editable={{
-                        onChange: handleChange.bind(this, record),
-                        text: text
-                    }}
                     ellipsis={{
                         suffix: text
                     }}
@@ -32,10 +33,29 @@ export const Columns = () => {
             )
         },
         {
+            title: 'Thumbnail',
+            dataIndex: 'thumbnail',
+            key: 'thumbnail',
+            width: '20%',
+            render: (thumbnail, record) => (
+                <Image src={thumbnail
+                    ? thumbnail
+                    : 'https://via.placeholder.com/150'}
+                    alt={'thumbnail'}
+                    width={80}
+                />
+            )
+            
+        },
+        {
             title: 'Actions',
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
+                    <Button
+                        icon={<EditTwoTone twoToneColor={'#1890ff'} />}
+                        onClick={() => handleEdit(record)}
+                    />
                     <Button
                         icon={<DeleteTwoTone twoToneColor={'#ff0000'} />}
                         onClick={() => changeDeleteModalState(record)}
