@@ -163,6 +163,13 @@ const UpdateAlbumModal = () => {
         setCurrentTab(key)
     }
 
+    const handleClearAll = () => {
+        if (formValues) {
+            form.resetFields()
+            setFormValues(null)
+        }
+    }
+
     return (
         <Modal
             title={modalMode === 'add' ? 'Add new album' : 'Update album'}
@@ -178,12 +185,7 @@ const UpdateAlbumModal = () => {
                         <Button
                             type="primary"
                             danger
-                            onClick={() => {
-                                if (formValues) {
-                                    form.resetFields()
-                                    setFormValues(null)
-                                }
-                            }}
+                            onClick={handleClearAll}
                         >
                             Clear all
                         </Button>

@@ -50,6 +50,7 @@ const AlbumContextProvider = ({ children }) => {
         return {
             openEditModal,
             editModalState,
+            setEditModalState,
             changeEditModalState,
             fetchAlbum,
             modalMode,

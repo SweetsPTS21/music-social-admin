@@ -4,11 +4,11 @@ import { PlusOutlined } from '@ant-design/icons'
 import { useGenreContext } from '../../../../context/useGenreContext'
 
 const GenreToolbar = () => {
-    const { isAdding, handleCreateGenre } = useGenreContext()
+    const { isAdding, handleCreateGenre, changeEditModalState, setModalMode } =
+        useGenreContext()
     const handleAdd = () => {
-        handleCreateGenre({
-            name: 'New Genre'
-        })
+        setModalMode('add')
+        changeEditModalState({})
     }
 
     return (
