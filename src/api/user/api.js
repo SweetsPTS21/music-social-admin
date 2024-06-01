@@ -2,6 +2,7 @@ import { MS_axios, MS_formAxios } from '../../custom/axios'
 import { BASE_PATH } from '../../config/url'
 
 const BASE_URL_USERS = `${BASE_PATH}/api/admin/users`
+const BASE_URL_USERS_UPGRADE = `${BASE_PATH}/api/account/upgrade-artist`
 
 export const getUsers = async (params) => {
     return MS_axios.get(BASE_URL_USERS, { params })
@@ -49,6 +50,28 @@ export const updateUser = async (userId, data) => {
 
 export const deleteUser = async (userId) => {
     return MS_axios.delete(`${BASE_URL_USERS}/${userId}`)
+        .then((res) => {
+            return res.data || {}
+        })
+        .catch((err) => {
+            console.log(err)
+            return {}
+        })
+}
+
+export const upgradeUser = async (key, data) => {
+    return MS_formAxios.post(`${BASE_URL_USERS_UPGRADE}/${key}`, data)
+        .then((res) => {
+            return res.data || {}
+        })
+        .catch((err) => {
+            console.log(err)
+            return {}
+        })
+}
+
+export const getUpgradeUserKey = async () => {
+    return MS_axios.get(`${BASE_URL_USERS_UPGRADE}`)
         .then((res) => {
             return res.data || {}
         })

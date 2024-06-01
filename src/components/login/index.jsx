@@ -10,7 +10,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (authedUser) {
-            window.location.href = '/management'
+            window.location.href = '/management/home'
         }
     }, [authedUser])
 

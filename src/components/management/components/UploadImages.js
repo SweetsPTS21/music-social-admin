@@ -3,10 +3,11 @@ import { Upload, Image, Form, Flex, Typography } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { getBase64 } from '../movie/utils'
 import ImgCrop from 'antd-img-crop'
+import PropTypes from 'prop-types'
 
 const { Text } = Typography
 
-const UploadImages = ({ images, form, setIsRemove }) => {
+const UploadImages = ({ images, form, required }) => {
     const [previewOpen, setPreviewOpen] = useState(false)
     const [previewImage, setPreviewImage] = useState('')
     const [fileList, setFileList] = useState([])
@@ -43,7 +44,6 @@ const UploadImages = ({ images, form, setIsRemove }) => {
                 }
             })
         )
-        setIsRemove(newFileList.length === 0)
     }
 
     const uploadButton = (
@@ -75,7 +75,15 @@ const UploadImages = ({ images, form, setIsRemove }) => {
 
     return (
         <div className={'h-[300px]'}>
-            <Form.Item name="fileThumbnail">
+            <Form.Item
+                name="fileThumbnail"
+                rules={[
+                    {
+                        required: required,
+                        message: 'Please upload a thumbnail!'
+                    }
+                ]}
+            >
                 <Flex align="center" justify={'center'} vertical>
                     <ImgCrop rotationSlider>
                         <Upload
@@ -108,6 +116,16 @@ const UploadImages = ({ images, form, setIsRemove }) => {
             )}
         </div>
     )
+}
+
+UploadImages.propTypes = {
+    images: PropTypes.string,
+    form: PropTypes.object,
+    required: PropTypes.bool
+}
+
+UploadImages.defaultProps = {
+    required: false
 }
 
 export default UploadImages

@@ -4,12 +4,12 @@ import { BASE_HOME } from './config/url'
 import './App.scss'
 import SettingRouter from './components/setting/Router'
 import LoginPage from './components/login'
-import SignupPage from './components/signup'
 import AuthedContextProvider from './context/useAuthedContext'
 import Page403 from './common/error/Page403'
 import { ManagementRoute } from './components/management/route/route'
 import ActiveUser from './components/active'
 import ResetPassword from './components/reset-password'
+import ArtistRegister from './components/upgrade'
 
 function App() {
     return (
@@ -25,9 +25,9 @@ function App() {
                             <Route path="forbidden" element={<Page403 />} />
                         </Route>
                         <Route path="login" element={<LoginPage />} />
-                        <Route path="signup" element={<SignupPage />} />
                         <Route path="active" element={<ActiveUser />} />
                         <Route path="reset" element={<ResetPassword />} />
+                        <Route path="upgrade" element={<ArtistRegister />} />
                         <Route
                             index
                             path="management/*"
