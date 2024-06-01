@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
 import { Table } from 'antd'
-import { useGenreContext } from '../../../../context/useGenreContext'
+import { useUserContext } from '../../../../context/useUserContext'
 import { mapper } from './mapper'
 import { Columns } from './column'
 import { useManagementContext } from '../../../../context/useManagementContext'
 
-const GenreTable = () => {
-    const { songGenres, genreLoading } = useManagementContext()
-    const { fetchGenreData, genreUpdating, genreCreating } = useGenreContext()
+const UserTable = () => {
+    const { allUsers, allUsersLoading } = useManagementContext()
+    const { changeEditModalState, fetchUserData } = useUserContext()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [tableParams, setTableParams] = useState({
@@ -22,7 +22,7 @@ const GenreTable = () => {
     const loadData = () => {
         setLoading(true)
         const delayFn = setTimeout(() => {
-            setData(mapper(songGenres))
+            setData(mapper(allUsers))
             setLoading(false)
         }, 500)
 
@@ -43,8 +43,8 @@ const GenreTable = () => {
                 filterStr += `${key} eq ${filterValue[index][0]}`
             }
         })
-        if (fetchGenreData) {
-            fetchGenreData({
+        if (fetchUserData) {
+            fetchUserData({
                 page: tableParams.pagination?.current,
                 size: tableParams.pagination?.pageSize,
                 searchText: filterStr,
@@ -58,7 +58,7 @@ const GenreTable = () => {
     }, [
         tableParams.pagination?.current,
         tableParams.pagination?.pageSize,
-        songGenres
+        allUsers
     ])
 
     useEffect(() => {
@@ -81,10 +81,15 @@ const GenreTable = () => {
 
     return (
         <Table
-            columns={Columns()}
+            columns={Columns(
+                tableParams,
+                setTableParams,
+                setData,
+                changeEditModalState
+            )}
             dataSource={data}
             pagination={tableParams?.pagination}
-            loading={genreLoading || loading || genreUpdating || genreCreating}
+            loading={allUsersLoading || loading}
             onChange={handleTableChange}
             scroll={{
                 y: 'calc(100vh - 390px)'
@@ -94,4 +99,4 @@ const GenreTable = () => {
     )
 }
 
-export default GenreTable
+export default UserTable

@@ -5,7 +5,7 @@ import appLogo from '../../assets/icon/mslogo.png'
 const Header = () => {
     return (
         <Layout.Header
-            className={'bg-white p-4 w-full'}
+            className={'bg-white p-3 w-full'}
             style={{
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)'
             }}

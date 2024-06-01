@@ -2,11 +2,17 @@ import { Button, Image, Space, Typography } from 'antd'
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { useGenreContext } from '../../../../context/useGenreContext'
+import defaultImg from '../../../../assets/img/200.png'
 
 const { Paragraph } = Typography
 
 export const Columns = () => {
-    const { changeDeleteModalState, changeEditModalState, setModalMode, handleUpdateGenre } = useGenreContext()
+    const {
+        changeDeleteModalState,
+        changeEditModalState,
+        setModalMode,
+        handleUpdateGenre
+    } = useGenreContext()
 
     // const handleChange = (record, value) => {
     //     if (record?.tag === value) return
@@ -38,14 +44,12 @@ export const Columns = () => {
             key: 'thumbnail',
             width: '20%',
             render: (thumbnail, record) => (
-                <Image src={thumbnail
-                    ? thumbnail
-                    : 'https://via.placeholder.com/150'}
+                <Image
+                    src={thumbnail || defaultImg}
                     alt={'thumbnail'}
                     width={80}
                 />
             )
-            
         },
         {
             title: 'Actions',

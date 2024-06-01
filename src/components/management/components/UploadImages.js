@@ -21,6 +21,8 @@ const UploadImages = ({ images, form }) => {
                     url: images
                 }
             ])
+        } else {
+            setFileList([])
         }
     }, [images])
 

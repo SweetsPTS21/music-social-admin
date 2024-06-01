@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react'
 import Highlighter from 'react-highlight-words'
 import { getMovieTagColor } from '../utils'
 import { useSongsContext } from '../../../../context/useSongsContext'
+import defaultImg from '../../../../assets/img/200.png'
 
 export const Columns = (
     tableParams,
@@ -146,7 +147,11 @@ export const Columns = (
             key: 'thumbnail',
             width: '10%',
             render: (thumbnail, record) => (
-                <Image src={thumbnail} alt={'thumbnail'} width={80} />
+                <Image
+                    src={thumbnail || defaultImg}
+                    alt={'thumbnail'}
+                    width={80}
+                />
             )
         },
         {
@@ -154,6 +159,7 @@ export const Columns = (
             dataIndex: 'name',
             key: 'name',
             width: '15%',
+            ellipsis: true,
             ...getColumnSearchProps('name')
         },
         {
@@ -161,6 +167,7 @@ export const Columns = (
             dataIndex: 'createDate',
             key: 'createDate',
             width: '15%',
+            ellipsis: true,
             ...getColumnSearchProps('createDate'),
             render: (text, record) => (
                 <Flex direction="column">
@@ -191,6 +198,7 @@ export const Columns = (
             dataIndex: 'audio',
             key: 'audio',
             width: '30%',
+            ellipsis: true,
             // ...getColumnSearchProps('audio'),
             render: (text, record) => (
                 <audio controls>
@@ -202,6 +210,7 @@ export const Columns = (
         {
             title: 'Actions',
             key: 'actions',
+            ellipsis: true,
             render: (text, record) => (
                 <Space size="middle">
                     <Button

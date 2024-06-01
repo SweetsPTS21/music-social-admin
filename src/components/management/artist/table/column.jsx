@@ -2,6 +2,7 @@ import { Button, Image, Space } from 'antd'
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { useArtistContext } from '../../../../context/useArtistContext'
+import defaultImg from '../../../../assets/img/200.png'
 
 export const Columns = (
     tableParams,
@@ -18,7 +19,11 @@ export const Columns = (
             key: 'image',
             width: '20%',
             render: (thumbnail, record) => (
-                <Image src={thumbnail} alt={'thumbnail'} width={80} />
+                <Image
+                    src={thumbnail || defaultImg}
+                    alt={'thumbnail'}
+                    width={80}
+                />
             )
         },
         {

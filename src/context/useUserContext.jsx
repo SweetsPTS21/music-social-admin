@@ -7,34 +7,36 @@ import React, {
 } from 'react'
 import { useManagementContext } from './useManagementContext'
 
-export const ArtistContext = createContext(null)
-export const useArtistContext = () => useContext(ArtistContext)
+export const UserContext = createContext(null)
+export const useUserContext = () => useContext(UserContext)
 
-const ArtistContextProvider = ({ children }) => {
-    const { allArtist } = useManagementContext()
+const UserContextProvider = ({ children }) => {
+    const { allUsers } = useManagementContext()
     const [openEditModal, setOpenEditModal] = useState(false)
     const [editModalState, setEditModalState] = useState({})
     const [modalMode, setModalMode] = useState(null)
 
-    const artistId = window.location.pathname.split('/').pop()
+    const userId = window.location.pathname.split('/').pop()
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deleteModalState, setDeleteModalState] = useState({})
 
+    console.log('allUsers:', allUsers)
+
     useEffect(() => {
-        if (artistId && allArtist?.length > 0) {
-            const findArtist = allArtist?.find(
-                (artist) => artist.id === Number(artistId)
+        if (userId && allUsers?.length > 0) {
+            const findUser = allUsers?.find(
+                (user) => user.id === Number(userId)
             )
-            if (findArtist) {
+            if (findUser) {
                 changeEditModalState({
-                    ...findArtist,
-                    image: findArtist?.image?.path
+                    ...findUser,
+                    image: findUser?.image?.path
                 })
                 changeModalMode('update')
             }
         }
-    }, [artistId, allArtist])
+    }, [userId, allUsers])
 
     const changeEditModalState = (data) => {
         setEditModalState(data)
@@ -70,10 +72,10 @@ const ArtistContextProvider = ({ children }) => {
     ])
 
     return (
-        <ArtistContext.Provider value={contextValue}>
+        <UserContext.Provider value={contextValue}>
             {children}
-        </ArtistContext.Provider>
+        </UserContext.Provider>
     )
 }
 
-export default ArtistContextProvider
+export default UserContextProvider

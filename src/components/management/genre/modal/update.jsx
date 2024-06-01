@@ -41,6 +41,8 @@ const UpdateGenreModal = () => {
         setModalMode(null)
     }
 
+    console.log('currentGenre', currentGenre)
+
     return (
         <Modal
             title={modalMode === 'add' ? 'Add new genre' : 'Update genre'}

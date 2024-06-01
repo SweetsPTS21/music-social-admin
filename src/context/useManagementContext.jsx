@@ -6,6 +6,7 @@ import React, {
     useMemo,
     useState
 } from 'react'
+import { getUsers } from '../api/user/api'
 import { getArtists } from '../api/artist/api'
 import { getSongGenres, getSongs, getSongTags } from '../api/music/api'
 import { getPlaylists } from '../api/playlist/api'
@@ -33,10 +34,30 @@ const ManagementContextProvider = ({ children }) => {
     const [allAlbums, setAllAlbums] = useState([])
     const [allAlbumsLoading, setAllAlbumsLoading] = useState(false)
 
+    const [allUsers, setAllUsers] = useState([])
+    const [allUsersLoading, setAllUsersLoading] = useState(false)
+
     const [searchText, setSearchText] = useState('')
     const [pageNumber, setPageNumber] = useState(0)
     const [pageSize, setPageSize] = useState(50)
     const [sortPage, setSortPage] = useState('createdDate,desc')
+
+    const fetchUserData = useCallback(async (page, size, sort, searchText) => {
+        setAllUsersLoading(true)
+        try {
+            const res = await getUsers({
+                page: page || pageNumber,
+                size: size || pageSize,
+                sort: sort || sortPage,
+                searchText: searchText || ''
+            })
+            setAllUsers(res)
+        } catch (error) {
+            console.error('Error fetching users:', error)
+        } finally {
+            setAllUsersLoading(false)
+        }
+    }, [])
 
     const fetchSongsData = useCallback(async (page, size, sort, searchText) => {
         setSongLoading(true)
@@ -145,6 +166,7 @@ const ManagementContextProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
+        fetchUserData(pageNumber, pageSize, sortPage, searchText).then((r) => r)
         fetchSongsData(pageNumber, pageSize, sortPage, searchText).then(
             (r) => r
         )
@@ -166,6 +188,9 @@ const ManagementContextProvider = ({ children }) => {
     const contextValue = useMemo(() => {
         return {
             authed: true,
+            allUsers,
+            allUsersLoading,
+            fetchUserData,
             allSongs,
             songLoading,
             fetchSongsData,
@@ -185,6 +210,8 @@ const ManagementContextProvider = ({ children }) => {
             fetchAlbumData
         }
     }, [
+        allUsers,
+        allUsersLoading,
         allSongs,
         songLoading,
         allArtist,
