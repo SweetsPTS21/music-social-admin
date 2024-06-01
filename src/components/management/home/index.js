@@ -26,7 +26,7 @@ const Home = () => {
     }
 
     return (
-        <Flex vertical>
+        <Flex vertical gap={16}>
             <Alert
                 message={alertMessage}
                 type="success"
@@ -89,50 +89,60 @@ const Home = () => {
             <Row gutter={16}>
                 <Col span={12}>
                     <Card bordered={false}>
-                        <Flex gap="small" wrap>
-                            <Progress
-                                type="dashboard"
-                                percent={90}
-                                strokeColor={twoColors}
-                                showInfo
-                            />
-                            <Progress
-                                type="dashboard"
-                                percent={100}
-                                strokeColor={twoColors}
-                            />
-                            <Progress
-                                type="dashboard"
-                                percent={93}
-                                strokeColor={conicColors}
-                            />
-                        </Flex>
+                        <Statistic
+                            title="Active Users"
+                            value={112893}
+                            formatter={formatter}
+                        />
                     </Card>
                 </Col>
                 <Col span={12}>
                     <Card bordered={false}>
-                        <Statistic title="Unmerged" value={93} />
+                        <Statistic
+                            title="Account Balance (CNY)"
+                            value={112893}
+                            precision={2}
+                            formatter={formatter}
+                        />
                     </Card>
                 </Col>
             </Row>
             <Row gutter={16}>
                 <Col span={12}>
                     <Card bordered={false}>
-                        <HomeCharts />
+                        <Flex justify="space-between" wrap>
+                            <Flex vertical gap={16}>
+                                <Progress
+                                    type="dashboard"
+                                    percent={90}
+                                    strokeColor={twoColors}
+                                    showInfo
+                                />
+                                <p>Thống kê hệ thống</p>
+                            </Flex>
+                            <Flex vertical gap={16}>
+                                <Progress
+                                    type="dashboard"
+                                    percent={70}
+                                    strokeColor={conicColors}
+                                    showInfo
+                                />
+                                <p>Thống kê người dùng</p>
+                            </Flex>
+                            <Flex vertical gap={16}>
+                                <Progress
+                                    type="dashboard"
+                                    percent={93}
+                                    strokeColor={conicColors}
+                                />
+                                <p>Thống kê bài hát</p>
+                            </Flex>
+                        </Flex>
                     </Card>
                 </Col>
                 <Col span={12}>
                     <Card bordered={false}>
-                        <Statistic
-                            title="Lượt truy cập hôm nay"
-                            value={9.3}
-                            precision={2}
-                            valueStyle={{
-                                color: '#cf1322'
-                            }}
-                            prefix={<ArrowDownOutlined />}
-                            suffix="%"
-                        />
+                        <HomeCharts />
                     </Card>
                 </Col>
             </Row>

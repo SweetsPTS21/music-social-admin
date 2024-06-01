@@ -5,6 +5,7 @@ import UploadImages from '../../components/UploadImages'
 import { createGenre, updateGenre } from '../../../../api/genre/api'
 import { useManagementContext } from '../../../../context/useManagementContext'
 import { message } from 'antd'
+import defaultImg from '../../../../assets/img/200.png'
 
 const UpdateGenreModal = () => {
     const { fetchSongGenres } = useManagementContext()
@@ -19,6 +20,7 @@ const UpdateGenreModal = () => {
     const [form] = Form.useForm()
     const [updateLoading, setUpdateLoading] = useState(false)
     const [currentTab, setCurrentTab] = useState('update')
+    const [isRemove, setIsRemove] = useState(false)
     const initialValues = {
         genre: '',
         thumbnail: []
@@ -38,6 +40,10 @@ const UpdateGenreModal = () => {
 
         if (values?.fileThumbnail) {
             newData.append('thumbnail', values?.fileThumbnail)
+        }
+
+        if (isRemove) {
+            newData.append('thumbnail', new File([], ''))
         }
 
         if (modalMode === 'add') {
@@ -117,6 +123,7 @@ const UpdateGenreModal = () => {
                             <UploadImages
                                 images={currentGenre?.thumbnail}
                                 form={form}
+                                setIsRemove={setIsRemove}
                             />
                             <Form.Item
                                 label="Name"

@@ -26,7 +26,7 @@ export const getPlaylist = async (id) => {
 }
 
 export const createPlaylist = async (data) => {
-    return MS_formAxios.post(BASE_URL_PLAYLISTS, data)
+    return MS_axios.post(BASE_URL_PLAYLISTS, data)
         .then((res) => {
             return res.data || {}
         })
@@ -37,7 +37,7 @@ export const createPlaylist = async (data) => {
 }
 
 export const updatePlaylist = async (id, data) => {
-    return MS_formAxios.put(`${BASE_URL_PLAYLISTS}/${id}`, data)
+    return MS_axios.put(`${BASE_URL_PLAYLISTS}/${id}`, data)
         .then((res) => {
             return res.data || {}
         })

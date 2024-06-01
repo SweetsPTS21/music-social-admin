@@ -6,6 +6,7 @@ import { createArtist, updateArtist } from '../../../../api/artist/api'
 import UploadImages from '../../components/UploadImages'
 import { GenreSelect } from '../../components/GenreSelect'
 import { useManagementContext } from '../../../../context/useManagementContext'
+import defaultImg from '../../../../assets/img/200.png'
 
 const UpdateArtistModal = () => {
     const { fetchArtistData } = useManagementContext()
@@ -23,6 +24,8 @@ const UpdateArtistModal = () => {
     console.log('currentArtist', currentArtist)
 
     const delayFn = _.debounce((values) => {
+        console.log('values', values)
+
         setUpdateLoading(true)
         const newData = new FormData()
         newData.append('nickname', values?.nickname)
