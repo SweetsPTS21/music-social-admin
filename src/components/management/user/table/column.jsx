@@ -21,13 +21,13 @@ export const Columns = (
     const columns = [
         {
             title: 'Image',
-            dataIndex: 'imageUrl',
-            key: 'imageUrl',
+            dataIndex: 'fileThumbnail',
+            key: 'fileThumbnail',
             width: '10%',
-            render: (imageUrl, record) => (
+            render: (fileThumbnail, record) => (
                 <Image
-                    src={imageUrl || defaultImg}
-                    alt={'imageUrl'}
+                    src={fileThumbnail || defaultImg}
+                    alt={'Avatar'}
                     width={80}
                 />
             )

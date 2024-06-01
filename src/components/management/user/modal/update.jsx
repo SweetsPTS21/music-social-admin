@@ -11,17 +11,18 @@ import {
     Radio,
     Row
 } from 'antd'
-import _ from 'lodash'
+import _, { first } from 'lodash'
 import { createUser, updateUser } from '../../../../api/user/api'
 import UploadImages from '../../components/UploadImages'
 import { AuthoritySelect } from '../../components/AuthoritySelect'
+import { useManagementContext } from '../../../../context/useManagementContext'
 
 const UpdateUserModal = () => {
+    const { fetchUserData } = useManagementContext()
     const {
         openEditModal,
         changeEditModalState,
         editModalState: currentUser,
-        fetchUserData,
         modalMode
     } = useUserContext()
 
@@ -39,14 +40,23 @@ const UpdateUserModal = () => {
         newData.append('email', values?.email)
         newData.append('login', values?.login)
         newData.append('authorities', values?.authorities)
-        newData.append('activated', values?.activated)
+        newData.append('activated', !!values?.activated)
 
-        if (values?.fileThumbnail) {
+        if (values?.fileThumbnail && values?.fileThumbnail instanceof File) {
             newData.append('avatar', values?.fileThumbnail)
         }
 
+        const addUserData = {
+            firstName: values?.firstName,
+            lastName: values?.lastName,
+            email: values?.email,
+            login: values?.login,
+            authorities: values?.authorities,
+            activated: !!values?.activated
+        }
+
         if (modalMode === 'add') {
-            createUser(newData)
+            createUser(addUserData)
                 .then((r) => {
                     console.log('r', r)
                     changeEditModalState({})
@@ -113,7 +123,7 @@ const UpdateUserModal = () => {
                     <Col span={12}>
                         <Flex vertical wrap={'wrap'}>
                             <UploadImages
-                                images={currentUser?.imageUrl}
+                                images={currentUser?.fileThumbnail}
                                 form={form}
                             />
                         </Flex>

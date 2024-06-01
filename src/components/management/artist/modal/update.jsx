@@ -5,13 +5,14 @@ import _ from 'lodash'
 import { createArtist, updateArtist } from '../../../../api/artist/api'
 import UploadImages from '../../components/UploadImages'
 import { GenreSelect } from '../../components/GenreSelect'
+import { useManagementContext } from '../../../../context/useManagementContext'
 
 const UpdateArtistModal = () => {
+    const { fetchArtistData } = useManagementContext()
     const {
         openEditModal,
         changeEditModalState,
         editModalState: currentArtist,
-        fetchArtistData,
         modalMode
     } = useArtistContext()
 

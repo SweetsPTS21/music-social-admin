@@ -2,7 +2,8 @@ export const mapper = (data) => {
     return data?.map((item) => {
         return {
             ...item,
-            key: item.id
+            key: item.id,
+            fileThumbnail: item?.avatar?.path
         }
     })
 }

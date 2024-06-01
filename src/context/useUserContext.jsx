@@ -21,8 +21,6 @@ const UserContextProvider = ({ children }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deleteModalState, setDeleteModalState] = useState({})
 
-    console.log('allUsers:', allUsers)
-
     useEffect(() => {
         if (userId && allUsers?.length > 0) {
             const findUser = allUsers?.find(

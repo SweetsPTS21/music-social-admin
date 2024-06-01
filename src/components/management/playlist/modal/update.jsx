@@ -5,13 +5,14 @@ import UploadImages from '../../components/UploadImages'
 import _ from 'lodash'
 import { createPlaylist, updatePlaylist } from '../../../../api/playlist/api'
 import AddSongs from './addSongs'
+import { useManagementContext } from '../../../../context/useManagementContext'
 
 const UpdatePlaylistModal = () => {
+    const { fetchPlaylistData } = useManagementContext()
     const {
         openEditModal,
         changeEditModalState,
         editModalState: currentPlaylist,
-        fetchPlaylistData,
         modalMode
     } = usePlaylistContext()
 
@@ -30,11 +31,6 @@ const UpdatePlaylistModal = () => {
         }
 
         newData.append('publish', true)
-
-        const allValues = {}
-        for (let [key, value] of newData.entries()) {
-            allValues[key] = value
-        }
 
         if (modalMode === 'add') {
             createPlaylist(newData)

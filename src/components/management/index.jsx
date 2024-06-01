@@ -7,7 +7,8 @@ import {
     PieChartOutlined,
     PlaySquareOutlined,
     StarOutlined,
-    TeamOutlined
+    TeamOutlined,
+    UserAddOutlined
 } from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu, Spin, theme } from 'antd'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
@@ -28,7 +29,7 @@ function getItem(label, key, icon, children) {
 
 const items = [
     getItem('Home', '1', <PieChartOutlined />),
-    getItem('Users', '2', <FireOutlined />),
+    getItem('Users', '2', <UserAddOutlined />),
     getItem('Songs', '3', <FireOutlined />),
     getItem('Playlists', '4', <PlaySquareOutlined />),
     getItem('Albums', '5', <PictureOutlined />),
@@ -46,7 +47,7 @@ const siderItems = [
     },
     {
         key: '2',
-        icon: <DesktopOutlined />,
+        icon: <UserAddOutlined />,
         label: 'Users',
         url: '/management/users'
     },

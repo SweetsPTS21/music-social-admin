@@ -196,6 +196,7 @@ const ManagementContextProvider = ({ children }) => {
             fetchSongsData,
             allArtist,
             artistLoading,
+            fetchArtistData,
             songGenres,
             genreLoading,
             fetchSongGenres,

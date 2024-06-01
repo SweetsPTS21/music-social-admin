@@ -1,4 +1,4 @@
-import { MS_axios } from '../../custom/axios'
+import { MS_axios, MS_formAxios } from '../../custom/axios'
 import { BASE_PATH } from '../../config/url'
 
 const BASE_URL_ARTISTS = `${BASE_PATH}/api/v1/artists`
@@ -26,7 +26,7 @@ export const getArtist = async (id) => {
 }
 
 export const createArtist = async (data) => {
-    return MS_axios.post(BASE_URL_ARTISTS, data)
+    return MS_formAxios.post(BASE_URL_ARTISTS, data)
         .then((res) => {
             return res.data || {}
         })
@@ -37,7 +37,7 @@ export const createArtist = async (data) => {
 }
 
 export const updateArtist = async (id, data) => {
-    return MS_axios.put(`${BASE_URL_ARTISTS}/${id}`, data)
+    return MS_formAxios.put(`${BASE_URL_ARTISTS}/${id}`, data)
         .then((res) => {
             return res.data || {}
         })
