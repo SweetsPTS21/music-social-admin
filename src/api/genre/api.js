@@ -1,4 +1,4 @@
-import { MS_axios } from '../../custom/axios'
+import { MS_axios, MS_formAxios } from '../../custom/axios'
 import { BASE_PATH } from '../../config/url'
 
 const BASE_URL_GENRES = `${BASE_PATH}/api/v1/genres`
@@ -26,7 +26,7 @@ export const getGenre = async (id) => {
 }
 
 export const createGenre = async (data) => {
-    return MS_axios.post(BASE_URL_GENRES, data)
+    return MS_formAxios.post(BASE_URL_GENRES, data)
         .then((res) => {
             return res.data || {}
         })
@@ -37,7 +37,7 @@ export const createGenre = async (data) => {
 }
 
 export const updateGenre = async (id, data) => {
-    return MS_axios.put(`${BASE_URL_GENRES}/${id}`, data)
+    return MS_formAxios.put(`${BASE_URL_GENRES}/${id}`, data)
         .then((res) => {
             return res.data || {}
         })
@@ -48,7 +48,7 @@ export const updateGenre = async (id, data) => {
 }
 
 export const deleteGenre = async (id) => {
-    return MS_axios.delete(`${BASE_URL_GENRES}/${id}`)
+    return MS_axios.delete(`${BASE_URL_GENRES}?ids=${id}`)
         .then((res) => {
             return res.data || {}
         })

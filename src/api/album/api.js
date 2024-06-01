@@ -1,4 +1,4 @@
-import { MS_axios } from '../../custom/axios'
+import { MS_axios, MS_formAxios } from '../../custom/axios'
 import { BASE_PATH } from '../../config/url'
 
 const BASE_URL_ALBUMS = `${BASE_PATH}/api/v1/albums`
@@ -26,7 +26,7 @@ export const getAlbum = async (id) => {
 }
 
 export const createAlbum = async (data) => {
-    return MS_axios.post(BASE_URL_ALBUMS, data)
+    return MS_formAxios.post(BASE_URL_ALBUMS, data)
         .then((res) => {
             return res.data || {}
         })
@@ -37,7 +37,7 @@ export const createAlbum = async (data) => {
 }
 
 export const updateAlbum = async (id, data) => {
-    return MS_axios.put(`${BASE_URL_ALBUMS}/${id}`, data)
+    return MS_formAxios.put(`${BASE_URL_ALBUMS}/${id}`, data)
         .then((res) => {
             return res.data || {}
         })

@@ -1,9 +1,10 @@
-import { MS_axios } from '../../custom/axios'
+import { MS_axios, MS_formAxios } from '../../custom/axios'
 import { BASE_PATH } from '../../config/url'
 
-const BASE_URL_USERS = `${BASE_PATH}/api/v1/users`
-export const getUsers = async () => {
-    MS_axios.get(BASE_URL_USERS)
+const BASE_URL_USERS = `${BASE_PATH}/api/admin/users`
+
+export const getUsers = async (params) => {
+    return MS_axios.get(BASE_URL_USERS, { params })
         .then((res) => {
             return res.data || []
         })
@@ -14,7 +15,7 @@ export const getUsers = async () => {
 }
 
 export const getUser = async (id) => {
-    MS_axios.get(`${BASE_URL_USERS}/${id}`)
+    return MS_axios.get(`${BASE_URL_USERS}/${id}`)
         .then((res) => {
             return res.data || {}
         })
@@ -25,7 +26,7 @@ export const getUser = async (id) => {
 }
 
 export const createUser = async (user) => {
-    MS_axios.post(BASE_URL_USERS, user)
+    return MS_axios.post(BASE_URL_USERS, user)
         .then((res) => {
             return res.data || {}
         })
@@ -35,8 +36,8 @@ export const createUser = async (user) => {
         })
 }
 
-export const updateUser = async (user) => {
-    MS_axios.put(`${BASE_URL_USERS}/${user.id}`, user)
+export const updateUser = async (userId, data) => {
+    return MS_formAxios.put(`${BASE_URL_USERS}/${userId}`, data)
         .then((res) => {
             return res.data || {}
         })
@@ -46,8 +47,8 @@ export const updateUser = async (user) => {
         })
 }
 
-export const deleteUser = async (id) => {
-    MS_axios.delete(`${BASE_URL_USERS}/${id}`)
+export const deleteUser = async (userId) => {
+    return MS_axios.delete(`${BASE_URL_USERS}/${userId}`)
         .then((res) => {
             return res.data || {}
         })

@@ -1,4 +1,4 @@
-import { MS_axios, MS_axios_upload } from '../../custom/axios'
+import { MS_axios, MS_formAxios } from '../../custom/axios'
 import { BASE_PATH } from '../../config/url'
 
 const BASE_URL_SONGS = `${BASE_PATH}/api/v1/songs`
@@ -29,7 +29,7 @@ export const getSong = async (id) => {
 }
 
 export const createSong = async (data) => {
-    return MS_axios_upload.post(BASE_URL_SONGS, data)
+    return MS_formAxios.post(BASE_URL_SONGS, data)
         .then((res) => {
             return res.data || {}
         })
@@ -40,7 +40,7 @@ export const createSong = async (data) => {
 }
 
 export const updateSong = async (id, data) => {
-    return MS_axios_upload.put(`${BASE_URL_SONGS}/${id}`, data)
+    return MS_formAxios.put(`${BASE_URL_SONGS}/${id}`, data)
         .then((res) => {
             return res.data || {}
         })

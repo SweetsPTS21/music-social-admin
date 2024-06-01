@@ -3,6 +3,7 @@ import { DeleteTwoTone, EditTwoTone, LinkOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useAlbumContext } from '../../../../context/useAlbumContext'
 import { Link } from 'react-router-dom'
+import defaultImg from '../../../../assets/img/200.png'
 
 export const Columns = (
     tableParams,
@@ -19,7 +20,11 @@ export const Columns = (
             key: 'thumbnail',
             width: '10%',
             render: (thumbnail, record) => (
-                <Image src={thumbnail} alt={'thumbnail'} width={80} />
+                <Image
+                    src={thumbnail || defaultImg}
+                    alt={'thumbnail'}
+                    width={80}
+                />
             )
         },
         {

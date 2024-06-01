@@ -6,7 +6,7 @@ import ImgCrop from 'antd-img-crop'
 
 const { Text } = Typography
 
-const UploadImages = ({ images, form }) => {
+const UploadImages = ({ images, form, setIsRemove }) => {
     const [previewOpen, setPreviewOpen] = useState(false)
     const [previewImage, setPreviewImage] = useState('')
     const [fileList, setFileList] = useState([])
@@ -21,6 +21,8 @@ const UploadImages = ({ images, form }) => {
                     url: images
                 }
             ])
+        } else {
+            setFileList([])
         }
     }, [images])
 
@@ -41,6 +43,7 @@ const UploadImages = ({ images, form }) => {
                 }
             })
         )
+        setIsRemove(newFileList.length === 0)
     }
 
     const uploadButton = (

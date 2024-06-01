@@ -122,20 +122,31 @@ const ActiveUser = () => {
             <Header />
             <Content className={'w-[80%]'} style={{ margin: '0 auto' }}>
                 <Flex
-                    className={'bg-white p-4 h-full'}
+                    className={'p-4 h-full'}
                     justify={'center'}
                     align={'center'}
                 >
-                    {activeSuccess ? (
-                        <Result
-                            status="success"
-                            title="Successfully Active Your Account!"
-                            subTitle="You can now close this window and login to your account in app."
-                            extra={[<Button key="buy">Home</Button>]}
-                        />
-                    ) : (
-                        <FormActiveUser />
-                    )}
+                    <Flex
+                        align={'center'}
+                        justify={'center'}
+                        className={'bg-white'}
+                        style={{
+                            height: 400,
+                            padding: 24,
+                            borderRadius: 8
+                        }}
+                    >
+                        {activeSuccess ? (
+                            <Result
+                                status="success"
+                                title="Successfully Active Your Account!"
+                                subTitle="You can now close this window and login to your account in app."
+                                extra={[<Button key="buy">Home</Button>]}
+                            />
+                        ) : (
+                            <FormActiveUser />
+                        )}
+                    </Flex>
                 </Flex>
             </Content>
             <HomeFooter />
