@@ -23,13 +23,15 @@ const UpdateAlbumModal = () => {
     const [updateLoading, setUpdateLoading] = useState(false)
     const [currentTab, setCurrentTab] = useState('update')
 
+    console.log('currentAlbum', currentAlbum)
+
     const delayFn = _.debounce((values) => {
         setUpdateLoading(true)
         const newData = new FormData()
         newData.append('title', values?.title)
         newData.append('caption', values?.caption)
         newData.append('description', values?.description)
-        newData.append('artistIds', values?.artistIds)
+        newData.append('artistId', values?.artistIds || currentAlbum?.artistIds)
 
         if (values?.fileThumbnail) {
             newData.append('thumbnail', values?.fileThumbnail)
@@ -155,7 +157,7 @@ const UpdateAlbumModal = () => {
         {
             key: 'add',
             label: 'Song list',
-            children: <AddSongs />
+            children: modalMode == 'update' && <AddSongs />
         }
     ]
 
@@ -182,11 +184,7 @@ const UpdateAlbumModal = () => {
                     justify={modalMode === 'add' ? 'space-between' : 'flex-end'}
                 >
                     {modalMode === 'add' && (
-                        <Button
-                            type="primary"
-                            danger
-                            onClick={handleClearAll}
-                        >
+                        <Button type="primary" danger onClick={handleClearAll}>
                             Clear all
                         </Button>
                     )}

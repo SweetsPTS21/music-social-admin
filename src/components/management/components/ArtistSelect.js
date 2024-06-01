@@ -7,9 +7,6 @@ const { Option } = Select
 export const ArtistSelect = ({ value }) => {
     const { allArtist } = useManagementContext()
 
-    console.log('value', value)
-    console.log('allArtist', allArtist)
-
     return (
         <Form.Item
             label="Artist"

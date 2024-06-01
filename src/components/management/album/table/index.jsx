@@ -92,7 +92,7 @@ const AlbumsTable = () => {
             loading={albumsLoading || loading}
             onChange={handleTableChange}
             scroll={{
-                y: 600
+                y: 'calc(100vh - 390px)'
             }}
             className={'ms-common-table'}
         />

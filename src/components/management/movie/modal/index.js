@@ -8,16 +8,17 @@ import { useSongsContext } from '../../../../context/useSongsContext'
 import { createSong, updateSong } from '../../../../api/music/api'
 import { TagSelect } from '../../components/TagSelect'
 import UploadSong from '../../components/UploadSong'
+import { useManagementContext } from '../../../../context/useManagementContext'
 
 const { TextArea } = Input
 const { Text } = Typography
 
 const UpdateSongModal = () => {
+    const { fetchSongsData } = useManagementContext()
     const {
         openEditModal,
         changeEditModalState,
         editModalState: currentSong,
-        fetchSongsData,
         modalMode
     } = useSongsContext()
     const [form] = Form.useForm()

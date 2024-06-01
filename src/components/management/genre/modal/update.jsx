@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Flex, Form, Input, Modal, Row } from 'antd'
 import { useGenreContext } from '../../../../context/useGenreContext'
 import UploadImages from '../../components/UploadImages'
+import { createGenre, updateGenre } from '../../../../api/genre/api'
+import { useManagementContext } from '../../../../context/useManagementContext'
+import { message } from 'antd'
+import defaultImg from '../../../../assets/img/200.png'
 
 const UpdateGenreModal = () => {
+    const { fetchSongGenres } = useManagementContext()
     const {
         openEditModal,
         changeEditModalState,
@@ -15,6 +20,7 @@ const UpdateGenreModal = () => {
     const [form] = Form.useForm()
     const [updateLoading, setUpdateLoading] = useState(false)
     const [currentTab, setCurrentTab] = useState('update')
+    const [isRemove, setIsRemove] = useState(false)
     const initialValues = {
         genre: '',
         thumbnail: []
@@ -28,8 +34,40 @@ const UpdateGenreModal = () => {
         form.setFieldsValue(initialValues)
     }
 
-    const onFinish = (values) => {
-        console.log('values', values)
+    const onFinish = async (values) => {
+        const newData = new FormData()
+        newData.append('name', values?.genre)
+
+        if (values?.fileThumbnail) {
+            newData.append('thumbnail', values?.fileThumbnail)
+        }
+
+        if (isRemove) {
+            newData.append('thumbnail', new File([], ''))
+        }
+
+        if (modalMode === 'add') {
+            setUpdateLoading(true)
+            createGenre(newData)
+                .then(() => {
+                    changeEditModalState({})
+                    message.success('Genre added successfully').then((r) => r)
+                })
+                .finally(() => {
+                    fetchSongGenres()
+                    setUpdateLoading(false)
+                })
+        } else if (modalMode === 'update') {
+            updateGenre(currentGenre?.id, newData)
+                .then(() => {
+                    changeEditModalState({})
+                    message.success('Genre updated successfully').then((r) => r)
+                })
+                .finally(() => {
+                    fetchSongGenres()
+                    setUpdateLoading(false)
+                })
+        }
     }
 
     const onOk = () => {
@@ -40,6 +78,8 @@ const UpdateGenreModal = () => {
         changeEditModalState({})
         setModalMode(null)
     }
+
+    console.log('currentGenre', currentGenre)
 
     return (
         <Modal
@@ -83,6 +123,7 @@ const UpdateGenreModal = () => {
                             <UploadImages
                                 images={currentGenre?.thumbnail}
                                 form={form}
+                                setIsRemove={setIsRemove}
                             />
                             <Form.Item
                                 label="Name"

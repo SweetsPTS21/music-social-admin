@@ -1,71 +1,88 @@
 import React, { useEffect, useState } from 'react'
-import { useArtistContext } from '../../../../context/useArtistContext'
-import { Button, Col, Flex, Form, Input, message, Modal, Row } from 'antd'
-import _ from 'lodash'
-import { createArtist, updateArtist } from '../../../../api/artist/api'
+import { useUserContext } from '../../../../context/useUserContext'
+import {
+    Button,
+    Col,
+    Flex,
+    Form,
+    Input,
+    message,
+    Modal,
+    Radio,
+    Row
+} from 'antd'
+import _, { first } from 'lodash'
+import { createUser, updateUser } from '../../../../api/user/api'
 import UploadImages from '../../components/UploadImages'
-import { GenreSelect } from '../../components/GenreSelect'
+import { AuthoritySelect } from '../../components/AuthoritySelect'
 import { useManagementContext } from '../../../../context/useManagementContext'
-import defaultImg from '../../../../assets/img/200.png'
 
-const UpdateArtistModal = () => {
-    const { fetchArtistData } = useManagementContext()
+const UpdateUserModal = () => {
+    const { fetchUserData } = useManagementContext()
     const {
         openEditModal,
         changeEditModalState,
-        editModalState: currentArtist,
+        editModalState: currentUser,
         modalMode
-    } = useArtistContext()
+    } = useUserContext()
 
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState(null)
     const [updateLoading, setUpdateLoading] = useState(false)
 
-    console.log('currentArtist', currentArtist)
+    console.log('currentUser', currentUser)
 
     const delayFn = _.debounce((values) => {
-        console.log('values', values)
-
         setUpdateLoading(true)
         const newData = new FormData()
-        newData.append('nickname', values?.nickname)
-        newData.append('country', values?.country)
-        newData.append('description', values?.description)
-        newData.append('websiteUrl', values?.website)
-        newData.append('genreIds', values?.genresArr?.join(',') || '')
+        newData.append('firstName', values?.firstName)
+        newData.append('lastName', values?.lastName)
+        newData.append('email', values?.email)
+        newData.append('login', values?.login)
+        newData.append('authorities', values?.authorities)
+        newData.append('activated', !!values?.activated)
 
-        if (values?.fileThumbnail) {
-            newData.append('image', values?.fileThumbnail)
+        if (values?.fileThumbnail && values?.fileThumbnail instanceof File) {
+            newData.append('avatar', values?.fileThumbnail)
+        }
+
+        const addUserData = {
+            firstName: values?.firstName,
+            lastName: values?.lastName,
+            email: values?.email,
+            login: values?.login,
+            authorities: values?.authorities,
+            activated: !!values?.activated
         }
 
         if (modalMode === 'add') {
-            createArtist(newData)
+            createUser(addUserData)
                 .then((r) => {
                     console.log('r', r)
                     changeEditModalState({})
-                    message.success('Movie added successfully').then((r) => r)
+                    message.success('User added successfully').then((r) => r)
                 })
                 .finally(() => {
-                    fetchArtistData()
+                    fetchUserData()
                     setUpdateLoading(false)
                 })
         } else if (modalMode === 'update') {
-            updateArtist(currentArtist?.id, newData)
+            updateUser(currentUser?.id, newData)
                 .then((r) => {
                     console.log('r', r)
                     changeEditModalState({})
-                    message.success('Movie updated successfully').then((r) => r)
+                    message.success('User updated successfully').then((r) => r)
                 })
                 .finally(() => {
-                    fetchArtistData()
+                    fetchUserData()
                     setUpdateLoading(false)
                 })
         }
     }, 500)
 
     useEffect(() => {
-        setFormValues(currentArtist)
-    }, [currentArtist])
+        setFormValues(currentUser)
+    }, [currentUser])
 
     useEffect(() => {
         if (formValues) {
@@ -74,8 +91,6 @@ const UpdateArtistModal = () => {
     }, [formValues])
 
     const onFinish = (values) => {
-        console.log('form', values)
-
         if (!values) return
 
         delayFn(values)
@@ -90,7 +105,7 @@ const UpdateArtistModal = () => {
     }
     return (
         <Modal
-            title={modalMode === 'add' ? 'Add new artist' : 'Update artist'}
+            title={modalMode === 'add' ? 'Add new user' : 'Update user'}
             open={openEditModal}
             onOk={() => onOk()}
             onCancel={() => onCancel()}
@@ -100,7 +115,7 @@ const UpdateArtistModal = () => {
             <Form
                 form={form}
                 layout="vertical"
-                initialValues={currentArtist}
+                initialValues={currentUser}
                 onFinish={onFinish}
                 className={'p-6'}
             >
@@ -108,46 +123,55 @@ const UpdateArtistModal = () => {
                     <Col span={12}>
                         <Flex vertical wrap={'wrap'}>
                             <UploadImages
-                                images={currentArtist?.image}
+                                images={currentUser?.fileThumbnail}
                                 form={form}
                             />
                         </Flex>
                     </Col>
                     <Col span={12}>
                         <Form.Item
-                            label="Nickname"
-                            name="nickname"
+                            label="First Name"
+                            name="firstName"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Nickname is required'
+                                    message: 'First is required'
                                 }
                             ]}
                         >
                             <Input
-                                placeholder="Nickname"
-                                value={currentArtist?.nickname}
+                                placeholder="First Name"
+                                value={currentUser?.firstName}
                             />
                         </Form.Item>
 
-                        <GenreSelect value={currentArtist?.genresArr} />
+                        <AuthoritySelect value={currentUser?.genresArr} />
 
-                        <Form.Item label="Country" name="country">
+                        <Form.Item label="Last Name" name="lastName">
                             <Input
-                                placeholder="Country"
-                                value={currentArtist?.country}
+                                placeholder="Last name"
+                                value={currentUser?.lastName}
                             />
                         </Form.Item>
-                        <Form.Item label="Description" name="description">
+                        <Form.Item label="Email" name="email">
                             <Input
-                                placeholder="Description"
-                                value={currentArtist?.description}
+                                placeholder="Email"
+                                value={currentUser?.email}
                             />
                         </Form.Item>
-                        <Form.Item label="Website" name="website">
+                        <Form.Item label="Account" name="login">
                             <Input
-                                placeholder="Website"
-                                value={currentArtist?.website}
+                                placeholder="Account"
+                                value={currentUser?.login}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Active" name="activated">
+                            <Radio.Group
+                                value={currentUser?.activated}
+                                options={[
+                                    { label: 'Active', value: true },
+                                    { label: 'Inactive', value: false }
+                                ]}
                             />
                         </Form.Item>
                     </Col>
@@ -183,4 +207,4 @@ const UpdateArtistModal = () => {
     )
 }
 
-export default UpdateArtistModal
+export default UpdateUserModal

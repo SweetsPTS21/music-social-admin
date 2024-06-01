@@ -100,6 +100,6 @@ export const homeQuestions = [
 export const homeFooter = [
     {
         key: 1,
-        label: '© 2024 Ant design'
+        label: 'Music Social ©2024'
     }
 ]

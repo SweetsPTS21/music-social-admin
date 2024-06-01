@@ -2,6 +2,7 @@ import { Button, Flex, Image, Space } from 'antd'
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { usePlaylistContext } from '../../../../context/usePlaylistContext'
+import defaultImg from '../../../../assets/img/200.png'
 
 export const Columns = (
     tableParams,
@@ -18,7 +19,11 @@ export const Columns = (
             key: 'thumbnail',
             width: '20%',
             render: (thumbnail, record) => (
-                <Image src={thumbnail} alt={'thumbnail'} width={80} />
+                <Image
+                    src={thumbnail || defaultImg}
+                    alt={'thumbnail'}
+                    width={80}
+                />
             )
         },
         {
