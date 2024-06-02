@@ -21,15 +21,12 @@ const UploadPoster = ({ poster, form }) => {
     const [previewOpen, setPreviewOpen] = useState(false)
     const [previewImage, setPreviewImage] = useState('')
 
-    console.log('poster', poster)
-
     const handleChange = (info) => {
         if (info.file.status === 'uploading') {
             setLoading(true)
             return
         }
         if (info.file.status === 'done') {
-            // Get this url from response in real world.
             getBase64(info.file.originFileObj, (url) => {
                 setLoading(false)
                 setImageUrl(url)

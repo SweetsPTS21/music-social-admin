@@ -172,7 +172,7 @@ const UpdatePlaylistModal = () => {
             label: 'Update album',
             children: <UpdateForm />
         },
-        {
+        modalMode === 'update' && {
             key: 'add',
             label: 'Song list',
             children: <AddSongs />

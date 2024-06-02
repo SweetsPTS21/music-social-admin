@@ -23,8 +23,6 @@ const UpdateAlbumModal = () => {
     const [updateLoading, setUpdateLoading] = useState(false)
     const [currentTab, setCurrentTab] = useState('update')
 
-    console.log('currentAlbum', currentAlbum)
-
     const delayFn = _.debounce((values) => {
         setUpdateLoading(true)
         const newData = new FormData()
@@ -40,7 +38,6 @@ const UpdateAlbumModal = () => {
         if (modalMode === 'add') {
             createAlbum(newData)
                 .then((r) => {
-                    console.log('r', r)
                     changeEditModalState({})
                     message.success('Movie added successfully').then((r) => r)
                 })
@@ -50,10 +47,13 @@ const UpdateAlbumModal = () => {
                 })
         } else if (modalMode === 'update') {
             updateAlbum(currentAlbum?.id, newData)
-                .then((r) => {
-                    console.log('r', r)
+                .then((res) => {
                     changeEditModalState({})
-                    message.success('Movie updated successfully').then((r) => r)
+                    if (res?.status !== 403) {
+                        message
+                            .success('Movie updated successfully')
+                            .then((r) => r)
+                    }
                 })
                 .finally(() => {
                     fetchAlbumData()
@@ -154,10 +154,10 @@ const UpdateAlbumModal = () => {
             label: 'Update album',
             children: <UpdateForm />
         },
-        {
+        modalMode == 'update' && {
             key: 'add',
             label: 'Song list',
-            children: modalMode == 'update' && <AddSongs />
+            children: <AddSongs />
         }
     ]
 

@@ -26,8 +26,6 @@ const UploadSong = ({ audio, form }) => {
     ])
 
     const handleChange = (info) => {
-        console.log('info', info)
-
         setAudioFileList([
             {
                 uid: info?.file?.uid,
@@ -44,8 +42,6 @@ const UploadSong = ({ audio, form }) => {
                 fileAudio: file.file
             })
         }
-
-        console.log('file', file)
     }
 
     return (

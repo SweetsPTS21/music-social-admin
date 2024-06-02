@@ -37,8 +37,6 @@ const AddSongs = () => {
     const [searchUnselectedSongs, setSearchUnselectedSongs] = useState('')
     const [updateLoading, setUpdateLoading] = useState(false)
 
-    console.log('currentAlbum', currentAlbum)
-
     useEffect(() => {
         if (currentAlbum?.songs?.length > 0) {
             setAlbumSongsData(currentAlbum?.songs)

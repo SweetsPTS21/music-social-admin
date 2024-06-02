@@ -3,6 +3,7 @@ import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { usePlaylistContext } from '../../../../context/usePlaylistContext'
 import defaultImg from '../../../../assets/img/200.png'
+import dayjs from 'dayjs'
 
 export const Columns = (
     tableParams,
@@ -39,7 +40,7 @@ export const Columns = (
             width: '20%',
             render: (text, record) => (
                 <Flex direction="column">
-                    <span>{text}</span>
+                    <span>{new Date(text).toLocaleString()}</span>
                 </Flex>
             )
         },
