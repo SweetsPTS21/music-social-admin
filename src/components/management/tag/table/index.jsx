@@ -8,8 +8,8 @@ import { useManagementContext } from '../../../../context/useManagementContext'
 import TagToolbar from '../toolbar'
 
 const TagTable = () => {
-    const { songTags, tagLoading } = useManagementContext()
-    const { fetchTagData, tagUpdating, tagCreating } = useTagContext()
+    const { songTags, tagLoading, fetchSongTags } = useManagementContext()
+    const { tagUpdating, tagCreating } = useTagContext()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [tableParams, setTableParams] = useState({
@@ -30,30 +30,6 @@ const TagTable = () => {
         return () => clearTimeout(delayFn)
     }
 
-    const refetchData = _.debounce(() => {
-        setLoading(true)
-        const filter = tableParams.filters
-
-        const filterKey = filter ? Object.keys(filter) : []
-        const filterValue = filter ? Object.values(filter) : []
-
-        let filterStr = ''
-        filterKey?.forEach((key, index) => {
-            if (filterValue[index]?.length === 0) return
-            if (filterValue[index]) {
-                filterStr += `${key} eq ${filterValue[index][0]}`
-            }
-        })
-        if (fetchTagData) {
-            fetchTagData({
-                page: tableParams.pagination?.current,
-                size: tableParams.pagination?.pageSize,
-                searchText: filterStr,
-                sort: tableParams.sorter
-            })
-        }
-    }, 500)
-
     useEffect(() => {
         loadData()
     }, [
@@ -61,12 +37,6 @@ const TagTable = () => {
         tableParams.pagination?.pageSize,
         songTags
     ])
-
-    useEffect(() => {
-        if (!_.isEmpty(tableParams.filters)) {
-            refetchData()
-        }
-    }, [tableParams.filters])
 
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({

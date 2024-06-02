@@ -33,8 +33,6 @@ const ArtistRegister = () => {
 
     const ref = useRef(null)
 
-    console.log('activeKey', activeKey)
-
     useEffect(() => {
         getUpgradeUserKey().then((res) => {
             if (res) {
@@ -52,7 +50,6 @@ const ArtistRegister = () => {
     }, [])
 
     const onFinish = (values) => {
-        console.log('Received values:', values)
         setLoading(true)
 
         const newData = new FormData()

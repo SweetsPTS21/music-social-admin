@@ -13,8 +13,6 @@ const DeleteSongModal = () => {
     } = useSongsContext()
     const [deleteLoading, setDeleteLoading] = useState(false)
 
-    console.log('currentSong', currentSong)
-
     const onOk = async () => {
         try {
             setDeleteLoading(true)

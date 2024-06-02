@@ -1,6 +1,7 @@
 import React from 'react'
 import mslogo from '../../../assets/icon/mslogo.png'
 import { Flex, Typography } from 'antd'
+import { Link } from 'react-router-dom'
 
 const { Text } = Typography
 
@@ -14,14 +15,16 @@ const SideHeader = ({ collapsed }) => {
                 padding: '0 15px'
             }}
         >
-            <div
-                style={{
-                    width: 50,
-                    height: 50
-                }}
-            >
-                <img src={mslogo} alt="logo" style={{ width: '100%' }} />
-            </div>
+            <Link to="/management/home">
+                <div
+                    style={{
+                        width: 50,
+                        height: 50
+                    }}
+                >
+                    <img src={mslogo} alt="logo" style={{ width: '100%' }} />
+                </div>
+            </Link>
             {!collapsed && (
                 <Text
                     style={{

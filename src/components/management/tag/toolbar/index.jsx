@@ -5,9 +5,10 @@ import { useTagContext } from '../../../../context/useTagContext'
 
 const TagToolbar = () => {
     const { isAdding, handleCreateTag } = useTagContext()
+
     const handleAdd = () => {
         handleCreateTag({
-            name: 'New Tag'
+            name: 'New Tag ' + Math.floor(Math.random() * 1000)
         })
     }
 
