@@ -13,20 +13,21 @@ const renderCustomAxisTicks = ({ x, y, payload }) => {
 }
 
 function CustomTooltip({ payload, label, active }) {
-    if (active) {
+    if (active && payload) {
+        const current = payload[0] || {}
         return (
             <Flex className="bg-white opacity-80 rounded-lg p-3" gap={8}>
                 <img
-                    src={payload[0].payload.image}
+                    src={current.payload?.image}
                     alt="song"
                     width="50"
                     height="50"
                 />
                 <Flex vertical>
                     <p className="label">{`Tên bài hát: ${label}`}</p>
-                    <p className="intro">{`Lượt thích: ${payload[0].payload?.likes}`}</p>
-                    <p className="intro">{`Lượt nghe: ${payload[0].value}`}</p>
-                    <p className="intro">{`Người tạo: ${payload[0].payload?.creator}`}</p>
+                    <p className="intro">{`Lượt thích: ${current.payload?.likes}`}</p>
+                    <p className="intro">{`Lượt nghe: ${current.value}`}</p>
+                    <p className="intro">{`Người tạo: ${current.payload?.creator}`}</p>
                     <p className="desc"></p>
                 </Flex>
             </Flex>
@@ -75,7 +76,7 @@ const HomeCharts = () => {
             }
             setData(statistics)
         }
-    }, [allSongs])
+    }, [allSongs, statistics?.length])
 
     return (
         <BarChart width={600} height={300} data={data}>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Flex, Layout, Select } from 'antd'
 import appLogo from '../../assets/icon/mslogo.png'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
     return (
@@ -16,9 +17,11 @@ const Header = () => {
                 className={'w-[80%]'}
                 style={{ margin: '0 auto' }}
             >
-                <div className={'flex gap-4 items-center'}>
-                    <img src={appLogo} alt={'logo'} className={'h-10'} />
-                </div>
+                <Link to={'/'} className={'text-lg font-bold'}>
+                    <div className={'flex gap-4 items-center'}>
+                        <img src={appLogo} alt={'logo'} className={'h-10'} />
+                    </div>
+                </Link>
                 <div className={'flex gap-4 items-center'}>
                     <Select defaultValue={'vi'}>
                         <Select.Option value={'vi'}>Tiếng Việt</Select.Option>

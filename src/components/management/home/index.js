@@ -2,6 +2,7 @@ import React from 'react'
 import {
     ArrowDownOutlined,
     ArrowUpOutlined,
+    CustomerServiceOutlined,
     LikeOutlined,
     SmileOutlined
 } from '@ant-design/icons'
@@ -78,7 +79,7 @@ const Home = () => {
                 <Col span={12}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Unmerged"
+                            title="Đánh giá trung bình"
                             value={93}
                             suffix="/ 100"
                             formatter={formatter}
@@ -90,8 +91,22 @@ const Home = () => {
                 <Col span={12}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Active Users"
-                            value={112893}
+                            title={
+                                <Flex gap={8} align="center">
+                                    <span>Đang online</span>
+                                    <span>
+                                        <div
+                                            style={{
+                                                width: 10,
+                                                height: 10,
+                                                borderRadius: '50%',
+                                                backgroundColor: '#52c41a'
+                                            }}
+                                        />
+                                    </span>
+                                </Flex>
+                            }
+                            value={425}
                             formatter={formatter}
                         />
                     </Card>
@@ -99,8 +114,15 @@ const Home = () => {
                 <Col span={12}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Account Balance (CNY)"
-                            value={112893}
+                            title={
+                                <Flex gap={8} align="center">
+                                    <span>Đang nghe</span>
+                                    <span>
+                                        <CustomerServiceOutlined />
+                                    </span>
+                                </Flex>
+                            }
+                            value={230}
                             precision={2}
                             formatter={formatter}
                         />
