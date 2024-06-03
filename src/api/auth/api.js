@@ -82,15 +82,9 @@ export const forgotPassword = (email) => {
 }
 
 export const resetPassword = (key) => {
-    return MS_axios.post(
-        BASE_URL_RESET_PASSWORD,
-        {
-            key
-        },
-        {
-            withCredentials: true
-        }
-    )
+    return MS_axios.post(BASE_URL_RESET_PASSWORD, key, {
+        withCredentials: true
+    })
 }
 
 export const getMe = () => {

@@ -2,7 +2,7 @@ import { Button, Image, Space, Typography } from 'antd'
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { useGenreContext } from '../../../../context/useGenreContext'
-import defaultImg from '../../../../assets/img/200.png'
+import defaultImg from '../../../../assets/img/musics.png'
 
 const { Paragraph } = Typography
 

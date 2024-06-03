@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import Highlighter from 'react-highlight-words'
 import { getMovieTagColor } from '../utils'
 import { useSongsContext } from '../../../../context/useSongsContext'
-import defaultImg from '../../../../assets/img/200.png'
+import defaultImg from '../../../../assets/img/musics.png'
 
 export const Columns = (
     tableParams,
