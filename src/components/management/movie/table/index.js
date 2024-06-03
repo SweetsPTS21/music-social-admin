@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Table } from 'antd'
 import { mapper } from './mapper'
 import { Columns } from './columns'
-import _ from 'lodash'
+import _, { set } from 'lodash'
 import { useSongsContext } from '../../../../context/useSongsContext'
 import { useManagementContext } from '../../../../context/useManagementContext'
 
@@ -43,23 +43,21 @@ const SongsTable = () => {
                 filterStr += `${key} eq ${filterValue[index][0]}`
             }
         })
-        if (fetchSongsData) {
-            fetchSongsData({
-                page: tableParams.pagination?.current,
-                size: tableParams.pagination?.pageSize,
-                searchText: filterStr,
-                sort: tableParams.sorter
-            })
-        }
+
+        setLoading(false)
+        // if (fetchSongsData) {
+        //     fetchSongsData({
+        //         page: tableParams.pagination?.current,
+        //         size: tableParams.pagination?.pageSize,
+        //         searchText: filterStr,
+        //         sort: tableParams.sorter
+        //     })
+        // }
     }, 500)
 
     useEffect(() => {
         loadData()
-    }, [
-        tableParams.pagination?.current,
-        tableParams.pagination?.pageSize,
-        allSongs
-    ])
+    }, [allSongs])
 
     useEffect(() => {
         if (!_.isEmpty(tableParams.filters)) {

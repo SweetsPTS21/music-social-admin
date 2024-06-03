@@ -7,8 +7,7 @@ import {
 } from '@ant-design/icons'
 import React from 'react'
 import { useUserContext } from '../../../../context/useUserContext'
-import defaultImg from '../../../../assets/img/200.png'
-import { render } from '@testing-library/react'
+import defaultImg from '../../../../assets/img/users.png'
 
 export const Columns = (
     tableParams,
