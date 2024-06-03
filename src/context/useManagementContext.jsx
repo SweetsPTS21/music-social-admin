@@ -119,7 +119,12 @@ const ManagementContextProvider = ({ children }) => {
     const fetchSongTags = useCallback(async (page, size, sort, searchText) => {
         try {
             setTagLoading(true)
-            const res = await getSongTags({ page, size, sort, searchText })
+            const res = await getSongTags({
+                page: page || pageNumber,
+                size: size || pageSize,
+                sort: sort || sortPage,
+                searchText: searchText || ''
+            })
             setSongTags(res)
         } catch (error) {
             console.error('Error fetching song tags:', error)

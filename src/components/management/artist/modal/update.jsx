@@ -6,7 +6,6 @@ import { createArtist, updateArtist } from '../../../../api/artist/api'
 import UploadImages from '../../components/UploadImages'
 import { GenreSelect } from '../../components/GenreSelect'
 import { useManagementContext } from '../../../../context/useManagementContext'
-import defaultImg from '../../../../assets/img/200.png'
 
 const UpdateArtistModal = () => {
     const { fetchArtistData } = useManagementContext()
@@ -21,17 +20,13 @@ const UpdateArtistModal = () => {
     const [formValues, setFormValues] = useState(null)
     const [updateLoading, setUpdateLoading] = useState(false)
 
-    console.log('currentArtist', currentArtist)
-
     const delayFn = _.debounce((values) => {
-        console.log('values', values)
-
         setUpdateLoading(true)
         const newData = new FormData()
         newData.append('nickname', values?.nickname)
         newData.append('country', values?.country)
         newData.append('description', values?.description)
-        newData.append('websiteUrl', values?.website)
+        newData.append('websiteUrl', values?.websiteUrl)
         newData.append('genreIds', values?.genresArr?.join(',') || '')
 
         if (values?.fileThumbnail) {
@@ -41,7 +36,6 @@ const UpdateArtistModal = () => {
         if (modalMode === 'add') {
             createArtist(newData)
                 .then((r) => {
-                    console.log('r', r)
                     changeEditModalState({})
                     message.success('Movie added successfully').then((r) => r)
                 })
@@ -51,10 +45,13 @@ const UpdateArtistModal = () => {
                 })
         } else if (modalMode === 'update') {
             updateArtist(currentArtist?.id, newData)
-                .then((r) => {
-                    console.log('r', r)
+                .then((res) => {
                     changeEditModalState({})
-                    message.success('Movie updated successfully').then((r) => r)
+                    if (res?.status !== 403) {
+                        message
+                            .success('Movie updated successfully')
+                            .then((r) => r)
+                    }
                 })
                 .finally(() => {
                     fetchArtistData()
@@ -74,8 +71,6 @@ const UpdateArtistModal = () => {
     }, [formValues])
 
     const onFinish = (values) => {
-        console.log('form', values)
-
         if (!values) return
 
         delayFn(values)
@@ -144,10 +139,10 @@ const UpdateArtistModal = () => {
                                 value={currentArtist?.description}
                             />
                         </Form.Item>
-                        <Form.Item label="Website" name="website">
+                        <Form.Item label="Website" name="websiteUrl">
                             <Input
                                 placeholder="Website"
-                                value={currentArtist?.website}
+                                value={currentArtist?.websiteUrl}
                             />
                         </Form.Item>
                     </Col>

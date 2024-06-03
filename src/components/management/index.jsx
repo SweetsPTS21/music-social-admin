@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     BarsOutlined,
     DesktopOutlined,
@@ -89,6 +89,29 @@ const siderItems = [
     }
 ]
 
+const mapKeys = (path) => {
+    switch (path) {
+        case '/management/home':
+            return '1'
+        case '/management/users':
+            return '2'
+        case '/management/songs':
+            return '3'
+        case '/management/playlists':
+            return '4'
+        case '/management/albums':
+            return '5'
+        case '/management/artists':
+            return '6'
+        case '/management/genres':
+            return '7'
+        case '/management/tags':
+            return '8'
+        default:
+            return '1'
+    }
+}
+
 const AdminHome = () => {
     const navigate = useNavigate()
     const { authedUser } = useAuthedContext()
@@ -100,12 +123,18 @@ const AdminHome = () => {
 
     const { songLoading } = useManagementContext()
 
+    const [currentKey, setCurrentKey] = useState(['1'])
+
+    const path = window.location.pathname
+
+    useEffect(() => {
+        setCurrentKey([mapKeys(path)])
+    }, [path])
+
     function onSelect({ item, key, keyPath, selectedKeys, domEvent }) {
         navigate(siderItems.find((item) => item.key === key)?.url)
         setSelectedKeys([key])
     }
-
-    // const currentTab = window.location.pathname.toString()
 
     return (
         authedUser && (
@@ -128,6 +157,7 @@ const AdminHome = () => {
                         defaultSelectedKeys={['1']}
                         mode="inline"
                         items={items}
+                        selectedKeys={currentKey}
                         onSelect={onSelect}
                     />
                 </Sider>

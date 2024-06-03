@@ -13,12 +13,9 @@ const DeleteAlbumModal = () => {
     } = useAlbumContext()
     const [deleteLoading, setDeleteLoading] = useState(false)
 
-    console.log('currentAlbum', currentAlbum)
-
     const onOk = async () => {
         try {
             setDeleteLoading(true)
-            // delete album
             const res = await deleteAlbum(currentAlbum?.id)
             if (res) {
                 changeDeleteModalState({})

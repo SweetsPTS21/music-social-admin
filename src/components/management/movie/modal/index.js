@@ -25,8 +25,6 @@ const UpdateSongModal = () => {
     const [formValues, setFormValues] = useState(null)
     const [updateLoading, setUpdateLoading] = useState(false)
 
-    console.log('currentSong', currentSong)
-
     const delayFn = _.debounce((values) => {
         setUpdateLoading(true)
         const newData = new FormData()
@@ -49,10 +47,8 @@ const UpdateSongModal = () => {
 
         if (modalMode === 'add') {
             createSong(newData)
-                .then((r) => {
-                    console.log('r', r)
+                .then(() => {
                     changeEditModalState({})
-                    message.success('Movie added successfully').then((r) => r)
                 })
                 .finally(() => {
                     fetchSongsData()
@@ -60,10 +56,11 @@ const UpdateSongModal = () => {
                 })
         } else if (modalMode === 'update') {
             updateSong(currentSong?.id, newData)
-                .then((r) => {
-                    console.log('r', r)
+                .then((res) => {
                     changeEditModalState({})
-                    message.success('Movie updated successfully').then((r) => r)
+                    if (res?.status !== 403) {
+                        message.success('Update song successfully')
+                    }
                 })
                 .finally(() => {
                     fetchSongsData()
@@ -73,8 +70,6 @@ const UpdateSongModal = () => {
     }, 500)
 
     const onFinish = (values) => {
-        console.log('form', values)
-
         if (!values) return
 
         delayFn(values)
@@ -175,95 +170,6 @@ const UpdateSongModal = () => {
                             />
                         </Form.Item>
                     </Col>
-                    {/*<Col span={8}>*/}
-                    {/*    <Flex className={'mb-6'}>*/}
-                    {/*        <Text strong style={{ fontSize: '1.5rem' }}>*/}
-                    {/*            User Info*/}
-                    {/*        </Text>*/}
-                    {/*    </Flex>*/}
-                    {/*    <Form.Item*/}
-                    {/*        label="First name"*/}
-                    {/*        name="firstName"*/}
-                    {/*        rules={[*/}
-                    {/*            {*/}
-                    {/*                required: true,*/}
-                    {/*                message: 'First name is required'*/}
-                    {/*            }*/}
-                    {/*        ]}*/}
-                    {/*    >*/}
-                    {/*        <Input*/}
-                    {/*            placeholder="First name"*/}
-                    {/*            value={currentSong?.firstName}*/}
-                    {/*        />*/}
-                    {/*    </Form.Item>*/}
-                    {/*    <Form.Item*/}
-                    {/*        label="Last name"*/}
-                    {/*        name="lastName"*/}
-                    {/*        rules={[*/}
-                    {/*            {*/}
-                    {/*                required: true,*/}
-                    {/*                message: 'Last name is required'*/}
-                    {/*            }*/}
-                    {/*        ]}*/}
-                    {/*    >*/}
-                    {/*        <Input*/}
-                    {/*            placeholder="Last name"*/}
-                    {/*            value={currentSong?.lastName}*/}
-                    {/*        />*/}
-                    {/*    </Form.Item>*/}
-                    {/*    <Form.Item*/}
-                    {/*        label="Authorities"*/}
-                    {/*        name="authorities"*/}
-                    {/*        rules={[*/}
-                    {/*            {*/}
-                    {/*                required: true,*/}
-                    {/*                message: 'Authorities is required'*/}
-                    {/*            }*/}
-                    {/*        ]}*/}
-                    {/*    >*/}
-                    {/*        <Select placeholder="Authorities" mode="multiple">*/}
-                    {/*            <Option value="ROLE_USER">ROLE_USER</Option>*/}
-                    {/*            <Option value="ROLE_ADMIN">ROLE_ADMIN</Option>*/}
-                    {/*            <Option value="ROLE_ARTIST">ROLE_ARTIST</Option>*/}
-                    {/*        </Select>*/}
-                    {/*    </Form.Item>*/}
-                    {/*    <Form.Item*/}
-                    {/*        label="Login"*/}
-                    {/*        name="login"*/}
-                    {/*        rules={[*/}
-                    {/*            {*/}
-                    {/*                required: true,*/}
-                    {/*                message: 'Actors is required'*/}
-                    {/*            }*/}
-                    {/*        ]}*/}
-                    {/*    >*/}
-                    {/*        <Input*/}
-                    {/*            placeholder="Login name"*/}
-                    {/*            value={currentSong?.login}*/}
-                    {/*        />*/}
-                    {/*    </Form.Item>*/}
-                    {/*    <Form.Item*/}
-                    {/*        label="Email"*/}
-                    {/*        name="email"*/}
-                    {/*        rules={[*/}
-                    {/*            {*/}
-                    {/*                required: true,*/}
-                    {/*                message: 'Email is required'*/}
-                    {/*            }*/}
-                    {/*        ]}*/}
-                    {/*    >*/}
-                    {/*        <Input*/}
-                    {/*            placeholder="Email"*/}
-                    {/*            value={currentSong?.email}*/}
-                    {/*        />*/}
-                    {/*    </Form.Item>*/}
-                    {/*    <Form.Item label="Description" name="description">*/}
-                    {/*        <Input*/}
-                    {/*            placeholder="Description"*/}
-                    {/*            value={currentSong?.description}*/}
-                    {/*        />*/}
-                    {/*    </Form.Item>*/}
-                    {/*</Col>*/}
                 </Row>
                 <Flex
                     justify={modalMode === 'add' ? 'space-between' : 'flex-end'}
