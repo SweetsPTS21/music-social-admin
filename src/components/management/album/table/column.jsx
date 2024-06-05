@@ -3,7 +3,7 @@ import { DeleteTwoTone, EditTwoTone, LinkOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useAlbumContext } from '../../../../context/useAlbumContext'
 import { Link } from 'react-router-dom'
-import defaultImg from '../../../../assets/img/200.png'
+import defaultImg from '../../../../assets/img/musics.png'
 
 export const Columns = (
     tableParams,

@@ -2,7 +2,7 @@ import { Button, Image, Space } from 'antd'
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons'
 import React from 'react'
 import { useArtistContext } from '../../../../context/useArtistContext'
-import defaultImg from '../../../../assets/img/200.png'
+import defaultImg from '../../../../assets/img/musics.png'
 
 export const Columns = (
     tableParams,

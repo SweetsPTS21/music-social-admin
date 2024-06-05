@@ -190,7 +190,11 @@ const ResetPassword = () => {
                             }
                             subTitle="Please try again."
                             extra={[
-                                <Button key="home" type="primary">
+                                <Button
+                                    key="home"
+                                    type="primary"
+                                    onClick={handleBack}
+                                >
                                     Home
                                 </Button>
                             ]}
