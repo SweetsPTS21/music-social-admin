@@ -24,7 +24,7 @@ const ActiveUser = () => {
         setLoading(true)
         await activeUser(activeKey)
             .then((res) => {
-                if (res?.response?.status === 200) {
+                if (res?.status === 200) {
                     setActiveSuccess(true)
                 }
             })
