@@ -1,6 +1,7 @@
 import React from 'react'
 import UserContextProvider from '../../../context/useUserContext'
 import UpdateUserModal from './modal/update'
+import UpgradeArtistModal from './modal/upgrade'
 import UserTable from './table'
 import DeleteUserModal from './modal/delete'
 import UserToolbar from './toolbar'
@@ -15,6 +16,7 @@ const UserManagement = () => {
             </Flex>
             <UpdateUserModal />
             <DeleteUserModal />
+            <UpgradeArtistModal />
         </UserContextProvider>
     )
 }

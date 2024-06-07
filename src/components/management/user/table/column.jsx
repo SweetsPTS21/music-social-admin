@@ -3,7 +3,8 @@ import {
     CheckCircleTwoTone,
     CloseCircleTwoTone,
     DeleteTwoTone,
-    EditTwoTone
+    EditTwoTone,
+    UserSwitchOutlined
 } from '@ant-design/icons'
 import React from 'react'
 import { useUserContext } from '../../../../context/useUserContext'
@@ -15,7 +16,12 @@ export const Columns = (
     setData,
     changeEditModalState
 ) => {
-    const { changeModalMode, changeDeleteModalState } = useUserContext()
+    const {
+        changeModalMode,
+        changeDeleteModalState,
+        setOpenUpgradeModal,
+        setCurrentUser
+    } = useUserContext()
 
     const columns = [
         {
@@ -86,6 +92,22 @@ export const Columns = (
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
+                    <Tooltip
+                        title={'Approve upgrade request'}
+                        key={record.login}
+                    >
+                        <Button
+                            icon={
+                                <UserSwitchOutlined
+                                    className={'text-[#52c41a]'}
+                                />
+                            }
+                            onClick={() => {
+                                setOpenUpgradeModal(true)
+                                setCurrentUser(record)
+                            }}
+                        />
+                    </Tooltip>
                     <Button
                         icon={<EditTwoTone />}
                         onClick={() => {

@@ -21,6 +21,9 @@ const UserContextProvider = ({ children }) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deleteModalState, setDeleteModalState] = useState({})
 
+    const [openUpgradeModal, setOpenUpgradeModal] = useState(false)
+    const [currentUser, setCurrentUser] = useState({})
+
     useEffect(() => {
         if (userId && allUsers?.length > 0) {
             const findUser = allUsers?.find(
@@ -59,14 +62,20 @@ const UserContextProvider = ({ children }) => {
             changeModalMode,
             openDeleteModal,
             deleteModalState,
-            changeDeleteModalState
+            changeDeleteModalState,
+            openUpgradeModal,
+            setOpenUpgradeModal,
+            currentUser,
+            setCurrentUser
         }
     }, [
         openEditModal,
         editModalState,
         modalMode,
         openDeleteModal,
-        deleteModalState
+        deleteModalState,
+        openUpgradeModal,
+        currentUser
     ])
 
     return (
