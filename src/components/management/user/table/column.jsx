@@ -3,7 +3,8 @@ import {
     CheckCircleTwoTone,
     CloseCircleTwoTone,
     DeleteTwoTone,
-    EditTwoTone
+    EditTwoTone,
+    UserSwitchOutlined
 } from '@ant-design/icons'
 import React from 'react'
 import { useUserContext } from '../../../../context/useUserContext'
@@ -86,6 +87,15 @@ export const Columns = (
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
+                    <Button
+                        icon={
+                            <UserSwitchOutlined className={'text-[#52c41a]'} />
+                        }
+                        onClick={() => {
+                            changeModalMode('upgrade')
+                            changeEditModalState(record)
+                        }}
+                    />
                     <Button
                         icon={<EditTwoTone />}
                         onClick={() => {
