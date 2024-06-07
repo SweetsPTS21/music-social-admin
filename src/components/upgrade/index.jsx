@@ -15,8 +15,9 @@ import {
 import Header from '../layout/header'
 import HomeFooter from '../layout/footer'
 import UploadImages from '../management/components/UploadImages'
-import { getUpgradeUserKey, upgradeUser } from '../../api/user/api'
+import { upgradeUser } from '../../api/user/api'
 import { getSongGenres } from '../../api/music/api'
+import { useSearchParams } from 'react-router-dom'
 
 const { Content } = Layout
 const { Text } = Typography
@@ -26,20 +27,14 @@ const { Option } = Select
 const ArtistRegister = () => {
     const [loading, setLoading] = useState(false)
     const [activeSuccess, setActiveSuccess] = useState(false)
-    const [activeKey, setActiveKey] = useState('')
+
+    const [searchParams] = useSearchParams()
+    const activeKey = searchParams.get('activeKey')
 
     const [songGenres, setSongGenres] = useState([])
     const [form] = Form.useForm()
 
     const ref = useRef(null)
-
-    useEffect(() => {
-        getUpgradeUserKey().then((res) => {
-            if (res) {
-                setActiveKey(res)
-            }
-        })
-    }, [])
 
     useEffect(() => {
         getSongGenres().then((res) => {
@@ -48,6 +43,8 @@ const ArtistRegister = () => {
             }
         })
     }, [])
+
+    console.log('activeKey', activeKey)
 
     const onFinish = (values) => {
         setLoading(true)

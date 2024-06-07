@@ -1,174 +1,74 @@
-import React from 'react'
-import {
-    Button,
-    Col,
-    Flex,
-    Form,
-    Input,
-    Layout,
-    Row,
-    Select,
-    Typography
-} from 'antd'
-import UploadImages from '../../components/UploadImages'
+import React, { useState } from 'react'
+import { Button, Flex, Modal, Typography, message } from 'antd'
+import { useUserContext } from '../../../../context/useUserContext'
+import { getUpgradeUserKey } from '../../../../api/user/api'
+import { InfoCircleTwoTone, WarningOutlined } from '@ant-design/icons'
 
-const { Content } = Layout
-const { Text } = Typography
-const { Item } = Form
-const { Option } = Select
+const UpgradeArtistModal = () => {
+    const { Text } = Typography
+    const { openUpgradeModal, currentUser, setOpenUpgradeModal } =
+        useUserContext()
+    const [deleteLoading, setDeleteLoading] = useState(false)
 
-const AdminUpgradeArtist = () => {
+    const onOk = async () => {
+        try {
+            setDeleteLoading(true)
+            // delete user
+            const res = await getUpgradeUserKey(currentUser?.email)
+            if (res?.status === 200) {
+                message.success('Approve successfully')
+            }
+        } catch (error) {
+            console.error('Error upgrade user:', error)
+        } finally {
+            setDeleteLoading(false)
+            setOpenUpgradeModal(false)
+        }
+    }
+
+    const onCancel = () => {
+        setOpenUpgradeModal(false)
+    }
+
+    const ModalTitle = () => (
+        <Flex>
+            <InfoCircleTwoTone
+                twoToneColor={'#1890ff'}
+                style={{ color: 'red', fontSize: 20, marginRight: 10 }}
+            />
+            <Text strong>Upgrade artist</Text>
+        </Flex>
+    )
+
+    const ModalFooter = () => (
+        <Flex gap={8} justify={'flex-end'}>
+            <Button key="back" onClick={() => onCancel()}>
+                Cancel
+            </Button>
+            <Button
+                key="submit"
+                type="primary"
+                onClick={() => onOk()}
+                loading={deleteLoading}
+            >
+                Upgrade
+            </Button>
+        </Flex>
+    )
+
     return (
-        <div
-            className={'text-center'}
-            style={{
-                border: '1px solid #e4e4e4',
-                padding: '20px',
-                borderRadius: '8px'
-            }}
+        <Modal
+            title={<ModalTitle />}
+            open={openUpgradeModal}
+            footer={<ModalFooter />}
+            onCancel={() => onCancel()}
         >
-            <Row gutter={[16, 16]}>
-                <Col span={24}>
-                    <Text style={{ color: '#6d6e6f' }}>
-                        Please fill in the information below to complete the
-                        registration process
-                    </Text>
-                </Col>
-                <Col span={24}>
-                    <Form form={form} name="active-form" onFinish={onFinish}>
-                        <Row gutter={[16, 16]}>
-                            <Col
-                                md={12}
-                                xs={24}
-                                className="flex justify-center"
-                            >
-                                <UploadImages form={form} required={true} />
-                            </Col>
-                            <Col md={12} xs={24}>
-                                <Flex vertical className="flex-1">
-                                    <Item
-                                        label="Nickname"
-                                        name="nickname"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please input your nickname!'
-                                            }
-                                        ]}
-                                        labelCol={{
-                                            md: { span: 7 },
-                                            sm: { span: 5 }
-                                        }}
-                                        wrapperCol={{
-                                            md: { span: 17 },
-                                            sm: { span: 19 }
-                                        }}
-                                        labelAlign="left"
-                                    >
-                                        <Input
-                                            ref={ref}
-                                            placeholder="Nickname"
-                                            type="text"
-                                            autoComplete="off"
-                                        />
-                                    </Item>
-                                    <Item
-                                        label="Genres"
-                                        name="genres"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please select your genres!'
-                                            }
-                                        ]}
-                                        labelCol={{
-                                            md: { span: 7 },
-                                            sm: { span: 5 }
-                                        }}
-                                        wrapperCol={{
-                                            md: { span: 17 },
-                                            sm: { span: 19 }
-                                        }}
-                                        labelAlign="left"
-                                    >
-                                        <Select
-                                            mode="multiple"
-                                            placeholder="Genres"
-                                            title={'select'}
-                                        >
-                                            {songGenres?.map((item) => (
-                                                <Option
-                                                    key={item?.id}
-                                                    value={item?.id}
-                                                >
-                                                    {item?.genre}
-                                                </Option>
-                                            ))}
-                                        </Select>
-                                    </Item>
-                                    <Item
-                                        label="Country"
-                                        name="country"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please input your country!'
-                                            }
-                                        ]}
-                                        labelCol={{
-                                            md: { span: 7 },
-                                            sm: { span: 5 }
-                                        }}
-                                        wrapperCol={{
-                                            md: { span: 17 },
-                                            sm: { span: 19 }
-                                        }}
-                                        labelAlign="left"
-                                    >
-                                        <Input
-                                            placeholder="Country"
-                                            type="text"
-                                            autoComplete="off"
-                                        />
-                                    </Item>
-                                    <Item
-                                        label="Website"
-                                        name="website"
-                                        labelCol={{
-                                            md: { span: 7 },
-                                            sm: { span: 5 }
-                                        }}
-                                        wrapperCol={{
-                                            md: { span: 17 },
-                                            sm: { span: 19 }
-                                        }}
-                                        labelAlign="left"
-                                    >
-                                        <Input
-                                            placeholder="Website"
-                                            type="text"
-                                            autoComplete="off"
-                                        />
-                                    </Item>
-                                </Flex>
-                            </Col>
-                        </Row>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            className={'w-full'}
-                            loading={loading}
-                        >
-                            Register
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
-        </div>
+            <p>
+                {'Are you sure you want to approve upgrade artist request for'}{' '}
+                <span style={{ color: '#0000EE' }}>{currentUser?.login}</span>
+            </p>
+        </Modal>
     )
 }
 
-export default AdminUpgradeArtist
+export default UpgradeArtistModal
