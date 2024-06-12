@@ -213,7 +213,9 @@ const ManagementContextProvider = ({ children }) => {
             fetchPlaylistData,
             allAlbums,
             allAlbumsLoading,
-            fetchAlbumData
+            fetchAlbumData,
+            searchText,
+            setSearchText
         }
     }, [
         allUsers,
@@ -229,7 +231,8 @@ const ManagementContextProvider = ({ children }) => {
         allPlaylist,
         allPlaylistLoading,
         allAlbums,
-        allAlbumsLoading
+        allAlbumsLoading,
+        searchText
     ])
 
     return (
