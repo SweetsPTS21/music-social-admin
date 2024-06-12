@@ -70,13 +70,10 @@ export const upgradeUser = async (key, data) => {
         })
 }
 
-export const getUpgradeUserKey = async () => {
-    return MS_axios.get(`${BASE_URL_USERS_UPGRADE}`)
-        .then((res) => {
-            return res.data || {}
-        })
-        .catch((err) => {
-            console.log(err)
-            return {}
-        })
+export const getUpgradeUserKey = async (email) => {
+    return MS_axios.post(`${BASE_URL_USERS_UPGRADE}`, email, {
+        headers: {
+            'Content-Type': 'text/plain'
+        }
+    })
 }
